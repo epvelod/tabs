@@ -6,10 +6,12 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View,
   ActivityIndicator,
+  Modal, 
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import { WebBrowser, FileSystem  } from 'expo';
 import { MonoText } from '../components/StyledText';
 import Card from '../components/Card';
 import { bookListQuery } from '../constants/Queries';
@@ -21,16 +23,18 @@ const client = new ApolloClient({
   uri: "http://192.168.43.210:8080/graphql/"
 });
 
-export default class HomeScreen extends React.Component {
+export default class Formulario extends React.Component {
   
-  constructor(props){
-    super(props);
-    this.state = { hide:[]};
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
-  _onPressButton(id) {
-    this.state.hide.push(id);
-    this.setState( { hide: this.state.hide } );
+  constructor(props){
+    super(props);
+    this.state = {
+    	modalVisible: false,
+  	};
   }
 
   static navigationOptions = {
@@ -52,36 +56,34 @@ export default class HomeScreen extends React.Component {
               backgroundColor: '#e1e1e1',
               padding: 10,
               }}>
-              <Query query={gql`{
-                    bookList { 
-                      id 
-                      name 
-                      pageCount
-                    } 
-                  }
-                `}>
-                {({ loading, error, data }) => {
-                  if (loading) return (<ActivityIndicator/>);
-                  if (error) return (<ActivityIndicator/>);
-
-                  return data.bookList.map(({ id, name, pageCount }) => {
-
-
-                    if(!this.state.hide.includes(id)) {
-                     return (<Card
-                       title={'i'}
-                       name={name}
-                       pageCount={pageCount} 
-                       onPress={() => this.props.navigation.navigate('Formulario')}>
-                     </Card> );
-                    }
-
-                    return (null);
-                  });
-                }}
-              </Query>
+              <Card
+								title={'1'}
+								name="Cuenta con"
+								pageCount={0} 
+								onPress = {()=>this.setModalVisible(!this.state.modalVisible)}>
+							</Card>
 
             </View>
+            <Modal
+		          animationType="slide"
+		          transparent={false}
+		          visible={this.state.modalVisible}
+		          onRequestClose={() => {
+		            Alert.alert('Modal has been closed.');
+		          }}>
+		          <View style={{marginTop: 22}}>
+		            <View>
+		              <Text>Hello World!</Text>
+
+		              <TouchableHighlight
+		                onPress={() => {
+		                  this.setModalVisible(!this.state.modalVisible);
+		                }}>
+		                <Text>{FileSystem.documentDirectory}</Text>
+		              </TouchableHighlight>
+		            </View>
+		          </View>
+		        </Modal>
           </View>
       </ApolloProvider>
     );

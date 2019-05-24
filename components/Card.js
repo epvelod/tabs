@@ -46,8 +46,8 @@ export default class Card extends React.Component {
 	              flexDirection: 'column',
 	              justifyContent: 'space-evenly',
 	              padding: 5}}>
-	                <Text style={{textAlign: 'center'}}>"{this.props.name}"</Text>
-	                <Text style={{textAlign: 'right'}}>pp {this.props.pageCount}</Text>
+	                <Text style={{textAlign: 'center'}}>{this.props.name}</Text>
+	                <Text style={{textAlign: 'right'}}>{this.props.pageCount}/879</Text>
 	              </View>
 	            </View>
           	</View>

@@ -6,20 +6,22 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import Formulario from '../screens/Formulario';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  Formulario: Formulario,
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Incio',
+  tabBarLabel: 'Inventarios',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
         Platform.OS === 'ios'
           ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          : 'ios-journal'
       }
     />
   ),
@@ -30,11 +32,11 @@ const LinksStack = createStackNavigator({
 });
 
 LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+  tabBarLabel: 'Cifras',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+      name={Platform.OS === 'ios' ? 'ios-stats' : 'md-stats'}
     />
   ),
 };
@@ -48,7 +50,7 @@ SettingsStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      name={Platform.OS === 'ios' ? 'ios-time' : 'md-time'}
     />
   ),
 };
