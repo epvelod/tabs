@@ -18,7 +18,7 @@ import { ApolloProvider, Query } from "react-apollo";
 import { gql } from "apollo-boost";
 
 const client = new ApolloClient({
-  uri: "http://192.168.43.210:8080/graphql/"
+  uri: "http://10.0.0.20:8080/graphql/"
 });
 
 export default class HomeScreen extends React.Component {
@@ -64,12 +64,13 @@ export default class HomeScreen extends React.Component {
                   if (loading) return (<ActivityIndicator/>);
                   if (error) return (<ActivityIndicator/>);
 
-                  return data.bookList.map(({ id, name, pageCount }) => {
+                  return data.bookList.map(({ id, name, pageCount }, index) => {
 
 
                     if(!this.state.hide.includes(id)) {
                      return (<Card
-                       title={'i'}
+                       key={index}
+                       title={'i-'+index}
                        name={name}
                        pageCount={pageCount} 
                        onPress={() => this.props.navigation.navigate('Formulario')}>

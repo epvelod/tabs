@@ -13,7 +13,7 @@ export default class Card extends React.Component {
 
   render() {
     return (
-					<TouchableWithoutFeedback onPress={() => this.props.onPress()} underlayColor="white">
+		<TouchableWithoutFeedback onPress={() => this.props.onPress()} underlayColor="white">
           	<View style={{
               minHeight: 80,
               flexDirection: 'row',
@@ -51,7 +51,7 @@ export default class Card extends React.Component {
 	              </View>
 	            </View>
           	</View>
-          </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
     );
   }
 }
