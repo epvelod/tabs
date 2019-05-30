@@ -27,7 +27,7 @@ export default class Formulario extends React.Component {
   
 
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    this.setState({modalVisible: visible,info:{}});
   }
 
   constructor(props){
@@ -35,7 +35,39 @@ export default class Formulario extends React.Component {
     this.state = {
     	modalVisible: false,
   	};
+
+    this.checkAndCreateFolder = this.checkAndCreateFolder.bind(this);
+    this.check = this.check.bind(this);
+
   }
+
+ async checkAndCreateFolder(folder_path) {
+  const folder_info = await Expo.FileSystem.getInfoAsync(folder_path);
+  if (!Boolean(folder_info.exists)) {
+    // Create folder
+    try {
+      await FileSystem.makeDirectoryAsync(folder_path, {
+        intermediates: true
+      });
+    } catch (error) {
+      const new_folder_info = await Expo.FileSystem.getInfoAsync(folder_path);
+    }
+  }
+
+}
+
+check(){
+  Expo.FileSystem.getInfoAsync(FileSystem.documentDirectory+'formularios').then(folder_info=>{
+      this.setState({...this.state,info:folder_info});
+    });
+}
+
+  componentDidMount() {
+    (() => this.checkAndCreateFolder(FileSystem.documentDirectory+'formularios'))();
+
+    
+  }
+
 
   static navigationOptions = {
     header: null,
@@ -81,6 +113,12 @@ export default class Formulario extends React.Component {
 		                }}>
 		                <Text>{FileSystem.documentDirectory}</Text>
 		              </TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.check()
+                    }}>
+                    <Text>{JSON.stringify(this.state.info)}</Text>
+                  </TouchableHighlight>
 		            </View>
 		          </View>
 		        </Modal>
