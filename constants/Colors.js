@@ -11,4 +11,11 @@ export default {
   warningText: '#666804',
   noticeBackground: tintColor,
   noticeText: '#fff',
+  grisClaro: '#f4f4f4',
+  grisOscuro: '#59575a',
+  gris: '#59575a',
+  negro: '#191919',
+  pendiente: '#ff0000',
+  modificado: '#f4b183',
+  completo: '#548235',
 };

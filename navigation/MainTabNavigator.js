@@ -7,9 +7,15 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import Formulario from '../screens/Formulario';
+import Instrucciones from '../screens/Instrucciones';
+import Instruccion from '../screens/Instruccion';
+
+import Colors from '../constants/Colors';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  Instrucciones: Instrucciones,
+  Instruccion: Instruccion,
   Formulario: Formulario,
 });
 
@@ -58,5 +64,12 @@ SettingsStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   LinksStack,
-  SettingsStack,
+  //SettingsStack,
+},{
+  tabBarOptions: {
+    activeTintColor: Colors.grisOscuro,
+    style: {
+      backgroundColor: Colors.grisClaro,
+    },
+  },
 });

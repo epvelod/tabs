@@ -45,7 +45,7 @@ export default class LoginScreen extends React.Component {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'stretch',
-		    backgroundColor: '#00bcd4', 
+		backgroundColor: Colors.grisClaro, 
       }}>
       	<FadeInView
 				        style={{ 
@@ -57,7 +57,7 @@ export default class LoginScreen extends React.Component {
 				      <Icon.FontAwesome
 				        name="lock"
 				        size={100}
-				        color="#fff"
+				        color={Colors.grisOscuro}
 				        style={{ 
 					        flexDirection: 'column',
 					        justifyContent: 'center',
@@ -144,7 +144,7 @@ export default class LoginScreen extends React.Component {
 	        }} >
 		        <Button
 		          title="Entrar"
-		          color="#19d6d2"
+		          color={Colors.negro}
 		          style={{
 		          }}
 		          onPress={() => this.props.navigation.navigate('Main')}

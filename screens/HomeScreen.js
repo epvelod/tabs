@@ -10,12 +10,20 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-import { MonoText } from '../components/StyledText';
-import Card from '../components/Card';
-import { bookListQuery } from '../constants/Queries';
+
 import ApolloClient from "apollo-boost";
 import { ApolloProvider, Query } from "react-apollo";
 import { gql } from "apollo-boost";
+
+import { MonoText, Titulo, Descripcion } from '../components/StyledText';
+import Card from '../components/Card';
+import Item from '../components/Item';
+
+import { bookListQuery } from '../constants/Queries';
+import Colors from '../constants/Colors';
+
+
+
 
 const client = new ApolloClient({
   uri: "http://10.0.0.20:8080/graphql/"
@@ -44,14 +52,21 @@ export default class HomeScreen extends React.Component {
               flex: 1,}}>
             <View style={{
                 height: 25,
-                backgroundColor: '#07c'}}>
+                backgroundColor: Colors.negro}}>
             </View>
             <View style={{
               flex: 1,
               alignItems: 'stretch',
-              backgroundColor: '#e1e1e1',
-              padding: 10,
+              backgroundColor: '#fff',
+              paddingVertical: 10,
+              paddingHorizontal: 20,
               }}>
+              <View>
+                <Titulo>Reviciones</Titulo>
+              </View>
+              <View style={{marginBottom: 40}}>
+                <Descripcion>Recuerda descargar y subir tus formas usando el icono de nube.</Descripcion>
+              </View>
               <Query query={gql`{
                     bookList { 
                       id 
@@ -68,13 +83,10 @@ export default class HomeScreen extends React.Component {
 
 
                     if(!this.state.hide.includes(id)) {
-                     return (<Card
-                       key={index}
-                       title={'i-'+index}
-                       name={name}
-                       pageCount={pageCount} 
-                       onPress={() => this.props.navigation.navigate('Formulario')}>
-                     </Card> );
+                     return (<Item 
+                      key={index} 
+                      onEvaluar={() => this.props.navigation.navigate('Instrucciones')}
+                      onDescargar={() => this.props.navigation.navigate('Formulario')}></Item> );
                     }
 
                     return (null);
