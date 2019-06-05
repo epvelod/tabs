@@ -26,7 +26,8 @@ import Colors from '../constants/Colors';
 
 
 const client = new ApolloClient({
-  uri: "http://10.0.0.20:8080/graphql/"
+  //uri: "http://10.0.0.20:8080/graphql/"
+  uri: "http://10.108.162.233:8080/graphql/"
 });
 
 export default class HomeScreen extends React.Component {
