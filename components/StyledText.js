@@ -32,7 +32,6 @@ export class SubTitulo extends React.Component {
                   fontSize: 15,
                   fontWeight: 'bold',
                   marginTop: 5,
-                  marginBottom: 5,
     }
 
     	]} />;
@@ -41,7 +40,7 @@ export class SubTitulo extends React.Component {
 
 export class Descripcion extends React.Component {
   render() {
-    return <Text {...this.props} color='#262626' style={[this.props.style, 
+    return <Text {...this.props} color='#262626' style={[ 
     	
 	{
                   fontFamily: 'Microsoft YaHei',
@@ -50,7 +49,8 @@ export class Descripcion extends React.Component {
                   marginBottom: 2,
 	              textAlign: 'justify',
 
-    }
+    },
+    this.props.style
 
     	]} />;
   }
@@ -65,7 +65,6 @@ export class Dato extends React.Component {
                   fontSize: 9,
                   marginTop: 4,
                   marginBottom: 2,
-	              textAlign: 'center',
 	              fontStyle: 'italic',
 
     }

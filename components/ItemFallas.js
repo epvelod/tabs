@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   StyleSheet,
+  CheckBox,
   Text,
   View,
   TouchableHighlight, 
@@ -15,50 +16,30 @@ import Colors from '../constants/Colors';
 import { MonoText, Titulo, SubTitulo, Descripcion, Dato } from '../components/StyledText';
 
 
-export default class Item extends React.Component {
+export default class ItemFallas extends React.Component {
 
   render() {
-	const level = [
-		Colors.pendiente,
-		Colors.modificado,
-		Colors.completo];
 
     return (
+
+
 		<View style={{
-		minHeight: 80,
 		flexDirection: 'row',
 		marginBottom: 10
 		}}>
-			<View style={{
-	              width: 45,
-	              flexDirection: 'column',
-	              justifyContent: 'center',
-	              alignItems: 'stretch',
-			  }}>
-			      <Icon.FontAwesome
-			        name="database"
-			        size={26}
-			        style={{  }}
-			        color={Colors.grisOscuro}
-			      />
-			      <Icon.FontAwesome
-			        name="cloud"
-			        size={26}
-			        style={{ paddingLeft: 10 }}
-			        color={level[Math.floor( Math.random()*3)]}
-			      />
-			</View>
 			<View style={{flex: 4,
 			  backgroundColor: '#fff', 
 			  borderTopRightRadius: 10,
-			  borderBottomRightRadius: 10
+			  borderBottomRightRadius: 10,
 			  }}>
 			  <View style={{flex: 1,
-			  flexDirection: 'column',
+			  flexDirection: 'row',
 			  justifyContent: 'space-evenly',
 			  padding: 5}}>
-			    <SubTitulo>Veihículo 1</SubTitulo>
-			    <Descripcion style={{fontSize: 12}}>Resumen de la encuesta e información del vehículo</Descripcion>
+	    		<CheckBox></CheckBox>
+	    		<Descripcion style={{marginTop: 5, marginLeft: 10}}>
+	    		Abollado o roto por contacto externo
+	    		</Descripcion>
 			  </View>
 			</View>
 
@@ -69,7 +50,6 @@ export default class Item extends React.Component {
 				  alignItems: 'stretch',
 				  }}>
 		            <View style={{
-		              height: 60,
 		              width: 80,
 		              flexDirection: 'row',
 		              justifyContent: 'space-between',
@@ -83,11 +63,10 @@ export default class Item extends React.Component {
 				              flexDirection: 'column',
 				              justifyContent: 'center',
 				              alignItems: 'center', 
-			              	  backgroundColor: Colors.gris,
-				              borderRadius: 18,
+				              borderRadius: 4,
 				              }}>
 								<Icon.FontAwesome
-									name="bar-chart"
+									name="info"
 									size={22}
 									color={Colors.grisOscuro}
 								/>
@@ -102,22 +81,21 @@ export default class Item extends React.Component {
 				              flexDirection: 'column',
 				              justifyContent: 'center',
 				              alignItems: 'center', 
-			              	  backgroundColor: Colors.gris,
-				              borderRadius: 18,
+				              borderRadius: 4,
 				              }}>
 								<Icon.FontAwesome
-									name="calendar-check-o"
+									name="wpforms"
 									size={22}
 									color={Colors.grisOscuro}
 								/>
-								<Dato style={{textAlign: 'center', position: 'absolute' , top: 37  }}>
-				                  60%
-				                </Dato>
 				            </View>
 						</TouchableWithoutFeedback>
 		            </View>
 				</View>
 		</View>
+
+
+
     );
   }
 }

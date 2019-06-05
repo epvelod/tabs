@@ -9,6 +9,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import Formulario from '../screens/Formulario';
 import Instrucciones from '../screens/Instrucciones';
 import Instruccion from '../screens/Instruccion';
+import Fallas from '../screens/Fallas';
 
 import Colors from '../constants/Colors';
 
@@ -16,6 +17,7 @@ const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Instrucciones: Instrucciones,
   Instruccion: Instruccion,
+  Fallas: Fallas,
   Formulario: Formulario,
 });
 
