@@ -25,6 +25,7 @@ export default class ItemIntruccion extends React.Component {
 
     return (
 
+				<TouchableWithoutFeedback onPress={() => this.props.onPress()}>
 		<View style={{
 		flexDirection: 'row',
 			height: altura,
@@ -57,9 +58,10 @@ export default class ItemIntruccion extends React.Component {
 			<View style={{flex: 1,
 			  backgroundColor: '#fff', 
 			  }}>
-			    <Descripcion style={{textAlign: 'right'}}>Inspeccione visual y manualmente con el motor encendido...</Descripcion>
+			    <Descripcion style={{}}>Inspeccione visual y manualmente con el motor encendido...</Descripcion>
 			</View>
 		</View>
+				</TouchableWithoutFeedback>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Alert,
+  Button,
   Image,
   Platform,
   ScrollView,
@@ -8,6 +9,7 @@ import {
   Text,
   View,
   ActivityIndicator,
+  CheckBox,
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
@@ -17,13 +19,12 @@ import { gql } from "apollo-boost";
 
 import { MonoText, Titulo, Descripcion } from '../components/StyledText';
 import Card from '../components/Card';
-import Item from '../components/Item';
-import ItemIntruccion from '../components/ItemIntruccion';
+import ItemFallas from '../components/ItemFallas';
 
 import { bookListQuery } from '../constants/Queries';
 import Colors from '../constants/Colors';
 
-export default class Instrucciones extends React.Component {
+export default class Fallas extends React.Component {
   
 
 
@@ -53,25 +54,21 @@ export default class Instrucciones extends React.Component {
               paddingVertical: 10,
               paddingHorizontal: 20,
               }}>
-              <View style={{marginBottom: 20}}>
-                <Titulo>Intrucciones</Titulo>
-              </View>
-
-        	<ScrollView>
-              <ItemIntruccion onPress={() => this.props.navigation.navigate('Instruccion')}></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-
-        	</ScrollView>
+				<View style={{marginBottom: 20}}>
+					<Titulo>Fallas</Titulo>
+				</View>
+	        	<ScrollView>
+	        		<ItemFallas></ItemFallas>
+	        	</ScrollView>
+				<View style={{marginBottom: 10}}>
+			        <Button
+			          title="Listo"
+			          color={Colors.negro}
+			          style={{
+			          }}
+			          onPress={() => this.props.navigation.navigate('Instruccion')}
+			        />
+				</View>
             </View>
           </View>
     );

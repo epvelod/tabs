@@ -63,7 +63,7 @@ export default class HomeScreen extends React.Component {
               paddingHorizontal: 20,
               }}>
               <View>
-                <Titulo>Reviciones</Titulo>
+                <Titulo>Revisiones</Titulo>
               </View>
               <View style={{marginBottom: 40}}>
                 <Descripcion>Recuerda descargar y subir tus formas usando el icono de nube.</Descripcion>
@@ -87,6 +87,7 @@ export default class HomeScreen extends React.Component {
                      return (<Item 
                       key={index} 
                       onEvaluar={() => this.props.navigation.navigate('Instrucciones')}
+                      onGrafica={() => this.props.navigation.navigate('Instrucciones')}
                       onDescargar={() => this.props.navigation.navigate('Formulario')}></Item> );
                     }
 

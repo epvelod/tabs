@@ -13,7 +13,7 @@ export default {
   noticeText: '#fff',
   grisClaro: '#f4f4f4',
   grisOscuro: '#59575a',
-  gris: '#59575a',
+  gris: '#e4e4e4',
   negro: '#191919',
   pendiente: '#ff0000',
   modificado: '#f4b183',
