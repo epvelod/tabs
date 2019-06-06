@@ -10,15 +10,17 @@ import Formulario from '../screens/Formulario';
 import Instrucciones from '../screens/Instrucciones';
 import Instruccion from '../screens/Instruccion';
 import Fallas from '../screens/Fallas';
+import RegistroFalla from '../screens/RegistroFalla';
 
 import Colors from '../constants/Colors';
 
-const HomeStack = createStackNavigator({
+export default HomeStack = createStackNavigator({
   Home: HomeScreen,
   Instrucciones: Instrucciones,
   Instruccion: Instruccion,
   Fallas: Fallas,
   Formulario: Formulario,
+  RegistroFalla: RegistroFalla,
 });
 
 HomeStack.navigationOptions = {
@@ -63,15 +65,3 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  //SettingsStack,
-},{
-  tabBarOptions: {
-    activeTintColor: Colors.grisOscuro,
-    style: {
-      backgroundColor: Colors.grisClaro,
-    },
-  },
-});

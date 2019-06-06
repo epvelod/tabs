@@ -58,18 +58,52 @@ export default class Instrucciones extends React.Component {
               </View>
 
         	<ScrollView>
-              <ItemIntruccion onPress={() => this.props.navigation.navigate('Instruccion')}></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
-              <ItemIntruccion></ItemIntruccion>
+              <ItemIntruccion 
+                onPress={() => this.props.navigation.navigate('Instruccion')}
+                marked={true}
+              >
+              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
+              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
+              </ItemIntruccion>
+              <ItemIntruccion 
+                onPress={() => this.props.navigation.navigate('Instruccion')}
+                marked={true}
+              >
+              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
+              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
+              </ItemIntruccion>
+              <ItemIntruccion 
+                onPress={() => this.props.navigation.navigate('Instruccion')}
+                marked={true}
+              >
+              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
+              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
+              </ItemIntruccion>
+              <ItemIntruccion 
+                onPress={() => this.props.navigation.navigate('Instruccion')}
+                marked={true}
+                selected={true}
+              >
+              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
+              </ItemIntruccion>
+              <ItemIntruccion 
+                onPress={() => this.props.navigation.navigate('Instruccion')}
+                marked={false}
+              >
+              I took to GitHub to
+              </ItemIntruccion>
+              <ItemIntruccion 
+                onPress={() => this.props.navigation.navigate('Instruccion')}
+                marked={false}
+              >
+              I took to GitHub to
+              </ItemIntruccion>
+              <ItemIntruccion 
+                onPress={() => this.props.navigation.navigate('Instruccion')}
+                marked={false}
+              >
+              I took to GitHub to
+              </ItemIntruccion>
 
         	</ScrollView>
             </View>

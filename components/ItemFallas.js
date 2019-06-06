@@ -23,76 +23,76 @@ export default class ItemFallas extends React.Component {
     return (
 
 
-		<View style={{
-		flexDirection: 'row',
-		marginBottom: 10
-		}}>
-			<View style={{flex: 4,
-			  backgroundColor: '#fff', 
-			  borderTopRightRadius: 10,
-			  borderBottomRightRadius: 10,
-			  }}>
-			  <View style={{flex: 1,
-			  flexDirection: 'row',
-			  justifyContent: 'space-evenly',
-			  padding: 5}}>
-	    		<CheckBox></CheckBox>
-	    		<Descripcion style={{marginTop: 5, marginLeft: 10}}>
-	    		Abollado o roto por contacto externo
-	    		</Descripcion>
-			  </View>
-			</View>
+    <View style={{
+    	flexDirection: 'row',
+    	marginBottom: 10
+    	}}>
+    	<View style={{flex: 4,
+    		backgroundColor: '#fff', 
+    		borderTopRightRadius: 10,
+    		borderBottomRightRadius: 10,
+    		}}>
+    		<View style={{flex: 1,
+    			flexDirection: 'row',
+    			justifyContent: 'space-evenly',
+    			padding: 5}}>
+    			<CheckBox></CheckBox>
+    			<Descripcion style={{marginTop: 5, marginLeft: 10}}>
+    				{this.props.children}
+    			</Descripcion>
+    		</View>
+    	</View>
 
-				<View style={{
-		          width: 80,
-				  flexDirection: 'column',
-				  justifyContent: 'center',
-				  alignItems: 'stretch',
-				  }}>
-		            <View style={{
-		              width: 80,
-		              flexDirection: 'row',
-		              justifyContent: 'space-between',
-		              alignItems: 'center', 
-		              }}>
+    	<View style={{
+    		width: 80,
+    		flexDirection: 'column',
+    		justifyContent: 'center',
+    		alignItems: 'stretch',
+    		}}>
+    		<View style={{
+    			width: 80,
+    			flexDirection: 'row',
+    			justifyContent: 'space-between',
+    			alignItems: 'center', 
+    			}}>
 
-						<TouchableWithoutFeedback onPress={() => this.props.onGrafica()} underlayColor="white">
-				            <View style={{
-				              height: 36,
-				              width: 36,
-				              flexDirection: 'column',
-				              justifyContent: 'center',
-				              alignItems: 'center', 
-				              borderRadius: 4,
-				              }}>
-								<Icon.FontAwesome
-									name="info"
-									size={22}
-									color={Colors.grisOscuro}
-								/>
-				                
-				            </View>
-						</TouchableWithoutFeedback>
+    			<TouchableWithoutFeedback onPress={() => this.props.onInfo()} underlayColor="white">
+    				<View style={{
+    					height: 36,
+    					width: 36,
+    					flexDirection: 'column',
+    					justifyContent: 'center',
+    					alignItems: 'center', 
+    					borderRadius: 4,
+    					}}>
+    					<Icon.FontAwesome
+    						name="info"
+    						size={22}
+    						color={Colors.grisOscuro}
+    						/>
 
-						<TouchableWithoutFeedback onPress={() => this.props.onEvaluar()} underlayColor="white">
-				            <View style={{
-				              height: 36,
-				              width: 36,
-				              flexDirection: 'column',
-				              justifyContent: 'center',
-				              alignItems: 'center', 
-				              borderRadius: 4,
-				              }}>
-								<Icon.FontAwesome
-									name="wpforms"
-									size={22}
-									color={Colors.grisOscuro}
-								/>
-				            </View>
-						</TouchableWithoutFeedback>
-		            </View>
-				</View>
-		</View>
+    					</View>
+    				</TouchableWithoutFeedback>
+
+    				<TouchableWithoutFeedback onPress={() => this.props.onPress()} underlayColor="white">
+    					<View style={{
+    						height: 36,
+    						width: 36,
+    						flexDirection: 'column',
+    						justifyContent: 'center',
+    						alignItems: 'center', 
+    						borderRadius: 4,
+    						}}>
+    						<Icon.FontAwesome
+    							name="wpforms"
+    							size={22}
+    							color={Colors.grisOscuro}
+    							/>
+    						</View>
+    					</TouchableWithoutFeedback>
+    				</View>
+    			</View>
+    		</View>
 
 
 

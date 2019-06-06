@@ -39,3 +39,18 @@ const opts = {
         console.error(error);
       });
   }
+
+
+  
+export default createBottomTabNavigator({
+  HomeStack,
+  LinksStack,
+  //SettingsStack,
+},{
+  tabBarOptions: {
+    activeTintColor: Colors.grisOscuro,
+    style: {
+      backgroundColor: Colors.grisClaro,
+    },
+  },
+});

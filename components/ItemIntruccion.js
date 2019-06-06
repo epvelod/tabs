@@ -20,8 +20,11 @@ export default class ItemIntruccion extends React.Component {
   render() {
 	const altura=80;
 	const ancho=5;
-	const diametro=18;
+	const diametro=this.props.selected?22:this.props.marked?15:18;
 	const left=20;
+
+	const text = this.props.children?(this.props.children.length>140?(this.props.children.substring(0, 140)+'...'):this.props.children):'';
+	const color = this.props.selected?Colors.negro:this.props.marked?Colors.grisOscuro:'#fff';
 
     return (
 
@@ -45,7 +48,9 @@ export default class ItemIntruccion extends React.Component {
 				/>
 			  	<View
 				  style={{
-				  	backgroundColor: Colors.grisOscuro,
+			       borderWidth:1,
+			       borderColor:Colors.grisOscuro,
+				  	backgroundColor: color,
 				    position: 'absolute',
 			        borderRadius: diametro/2,
 				    height: diametro,  
@@ -58,7 +63,7 @@ export default class ItemIntruccion extends React.Component {
 			<View style={{flex: 1,
 			  backgroundColor: '#fff', 
 			  }}>
-			    <Descripcion style={{}}>Inspeccione visual y manualmente con el motor encendido...</Descripcion>
+			    <Descripcion style={{}}>{text}</Descripcion>
 			</View>
 		</View>
 				</TouchableWithoutFeedback>

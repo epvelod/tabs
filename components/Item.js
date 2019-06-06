@@ -57,7 +57,7 @@ export default class Item extends React.Component {
 			  flexDirection: 'column',
 			  justifyContent: 'space-evenly',
 			  padding: 5}}>
-			    <SubTitulo>Veihículo 1</SubTitulo>
+			    <SubTitulo>Vehículo 1</SubTitulo>
 			    <Descripcion style={{fontSize: 12}}>Resumen de la encuesta e información del vehículo</Descripcion>
 			  </View>
 			</View>
@@ -110,9 +110,6 @@ export default class Item extends React.Component {
 									size={22}
 									color={Colors.grisOscuro}
 								/>
-								<Dato style={{textAlign: 'center', position: 'absolute' , top: 37  }}>
-				                  60%
-				                </Dato>
 				            </View>
 						</TouchableWithoutFeedback>
 		            </View>
