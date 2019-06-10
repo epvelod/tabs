@@ -9,6 +9,21 @@
 				componentes: [
 					{
 						id_componente: 0,
+						descripcion:'Pedal del acelerador',	
+						fallas:[
+							14
+						]
+					}
+				]
+			},
+
+			{
+				id_ensamble: 1,
+				descripcion: '',
+				instruccion: 'Inspeccione visual y manualmente el ensamble de acelerador.Indique si algún componente presenta falla.',
+				componentes: [
+					{
+						id_componente: 0,
 						descripcion:'Pedal',	
 						fallas:[
 							4, 9, 10, 11, 12
@@ -22,14 +37,14 @@
 						]
 					},
 					{
-						id_componente: 1,
+						id_componente: 2,
 						descripcion:'Cableado',	
 						fallas:[
 							1, 2, 3, 4, 5, 6, 10, 11
 						]
 					},
 					{
-						id_componente: 1,
+						id_componente: 3,
 						descripcion:'Mecanismo',	
 						fallas:[
 							1, 2, 3, 4, 5, 10, 11

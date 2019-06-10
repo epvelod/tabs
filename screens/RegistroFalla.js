@@ -45,7 +45,7 @@ export default class RegistroFalla extends React.Component {
     const id_falla = navigation.getParam('id_falla', 'NO-ID');
 
     const items = accion.map(({id_accion_falla, descripcion}, index) => 
-        <ItemAccion>
+        <ItemAccion key={index} >
           {descripcion}
         </ItemAccion>
 

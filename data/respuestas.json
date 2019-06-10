@@ -3,30 +3,81 @@
 		id_vehiculo:0,
 		instrucciones:[
 			{
-				id_ensamble: 0,
+				id_ensamble: 1,
 				componentes: [
 					{
 						id_componente: 0,
 						fallas:[
-							4, 9
+							{
+								id_falla: 1,
+								acciones: [1,2],
+								valor: '',
+							},
+							{
+								id_falla: 9,
+								acciones: [3],
+								valor: '',
+							},
+							{
+								id_falla:10,
+								acciones: [4],
+								valor: '',
+							},
 						]
 					},
 					{
 						id_componente: 1,
 						fallas:[
-							1, 2, 3, 4, 6
+							{
+								id_falla: 1,
+								acciones: [1,2],
+								valor: '',
+							},
+							{
+								id_falla: 2,
+								acciones: [3],
+								valor: '',
+							},
+							{
+								id_falla:3,
+								acciones: [4],
+								valor: '',
+							},
 						]
 					},
 					{
-						id_componente: 1,
+						id_componente: 2,
 						fallas:[
-							1, 2, 3, 4, 5, 6
+							{
+								id_falla: 6,
+								acciones: [1,2],
+								valor: '',
+							},
+							{
+								id_falla: 10,
+								acciones: [3],
+								valor: '',
+							},
+							{
+								id_falla:11,
+								acciones: [4],
+								valor: '',
+							},
 						]
 					},
 					{
-						id_componente: 1,
+						id_componente: 3,
 						fallas:[
-							1, 2, 3, 4, 5
+							{
+								id_falla: 5,
+								acciones: [1,2],
+								valor: '',
+							},
+							{
+								id_falla: 10,
+								acciones: [3],
+								valor: '',
+							},
 						]
 					}
 				]

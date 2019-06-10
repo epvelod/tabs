@@ -27,6 +27,8 @@ import ItemComponente from '../components/ItemComponente';
 import { bookListQuery } from '../constants/Queries';
 import Colors from '../constants/Colors';
 
+import respuestas from '../data/respuestas.json';
+
 export default class Instruccion extends React.Component {
   
 
@@ -45,6 +47,8 @@ export default class Instruccion extends React.Component {
   render() {
     const { navigation } = this.props;
     const { id_ensamble, descripcion, instruccion, componentes } = navigation.getParam('ensamble', 'NO-ID')||{componentes:[]};
+    const id_vehiculo = navigation.getParam('id_vehiculo', 'NO-ID');
+    const componentesRespuesta = navigation.getParam('componentes', 'NO-ID');
 
     const items = componentes.map(({id_componente, descripcion, fallas}, index) => 
         <ItemComponente 

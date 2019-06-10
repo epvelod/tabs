@@ -45,15 +45,22 @@ export default class Instrucciones extends React.Component {
     const { navigation } = this.props;
     const id_vehiculo = navigation.getParam('id_vehiculo', 'NO-ID');
     const formulario = formularios.filter((e) => e.id_vehiculo === id_vehiculo)[0]||{instrucciones:[]};
+    const respuesta = respuestas.filter((e) => e.id_vehiculo === id_vehiculo)[0]||{id_vehiculo:id_vehiculo,instrucciones:[]};
 
-    const items = formulario.instrucciones.map((ensamble, index) => 
-        <ItemIntruccion 
-          key={index} 
-          onPress={() => this.props.navigation.navigate('Instruccion', {ensamble:ensamble})}
-          marked={true}
-        >
-          {ensamble.instruccion}
-        </ItemIntruccion>
+    const items = formulario.instrucciones.map((ensamble, index) => {
+      const marked = (respuesta.instrucciones.length>0) && (ensamble.id_ensamble <= respuesta.instrucciones[respuesta.instrucciones.length-1].id_ensamble);
+      const selected = (respuesta.instrucciones.length>0) && (ensamble.id_ensamble == respuesta.instrucciones[respuesta.instrucciones.length-1].id_ensamble);
+      const {componentes} =  respuesta.instrucciones.filter((e) => e.id_ensamble === ensamble.id_ensamble)[0]||{};
+
+        return (<ItemIntruccion 
+                  key={index} 
+                  onPress={() => this.props.navigation.navigate('Instruccion', {ensamble:ensamble,id_vehiculo:id_vehiculo,componentes:componentes})}
+                  marked={marked}
+                  selected={selected}
+                >
+                  {ensamble.instruccion}
+                </ItemIntruccion>)
+      }
       );
 
     return (
