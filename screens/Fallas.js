@@ -25,6 +25,8 @@ import BotonListo from '../components/BotonListo';
 import { bookListQuery } from '../constants/Queries';
 import Colors from '../constants/Colors';
 
+import fallas from '../data/fallas.json';
+
 export default class Fallas extends React.Component {
   
   constructor(props){
@@ -37,6 +39,23 @@ export default class Fallas extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+    const listaFallas = navigation.getParam('fallas', 'NO-ID');
+    const falla = fallas.filter((e) => {
+      for (var i = 0; i < listaFallas.length; i++) {
+        if(listaFallas[i]===e.id_falla)
+          return true;
+      }
+    });
+
+    const items = falla.map(({id_falla, descripcion}, index) => 
+         <ItemFallas 
+          key={index} 
+         onPress={() => this.props.navigation.navigate('RegistroFalla', {id_falla:id_falla})}
+         onInfo={() => this.props.navigation.navigate('RegistroFalla', {id_falla:id_falla})}>
+         {descripcion}
+         </ItemFallas>
+      );
     return (
     <View style={{
       flex: 1,}}>
@@ -55,9 +74,7 @@ export default class Fallas extends React.Component {
          <Titulo>Fallas</Titulo>
        </View>
        <ScrollView>
-         <ItemFallas 
-         onPress={() => this.props.navigation.navigate('RegistroFalla')}
-         onInfo={() => this.props.navigation.navigate('RegistroFalla')}>Abollado o roto por contacto externo</ItemFallas>
+        {items}
        </ScrollView>
        <View style={{marginLeft: 10, marginBottom: 20, alignItems: 'flex-end' }}>
         <BotonListo 

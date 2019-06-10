@@ -34,7 +34,7 @@ export default class ItemAccion extends React.Component {
         		}}>
         		<View style={{flex: 1,
         			flexDirection: 'row',
-        			justifyContent: 'space-evenly',
+        			justifyContent: 'flex-start' ,
         			padding: 5}}>
         			<CheckBox></CheckBox>
         			<Descripcion style={{marginTop: 5, marginLeft: 10}}>

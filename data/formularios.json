@@ -1,0 +1,42 @@
+[
+	{
+		id_vehiculo:0,
+		instrucciones:[
+			{
+				id_ensamble: 0,
+				descripcion: '',
+				instruccion: '"Prueba: Con el motor encendido, presione manualmente el pedal del acelerador y suéltelo. El pedal del acelerador debe regresar por sí solo."',
+				componentes: [
+					{
+						id_componente: 0,
+						descripcion:'Pedal',	
+						fallas:[
+							4, 9, 10, 11, 12
+						]
+					},
+					{
+						id_componente: 1,
+						descripcion:'Sensor',	
+						fallas:[
+							1, 2, 3, 4, 6, 10, 11, 12
+						]
+					},
+					{
+						id_componente: 1,
+						descripcion:'Cableado',	
+						fallas:[
+							1, 2, 3, 4, 5, 6, 10, 11
+						]
+					},
+					{
+						id_componente: 1,
+						descripcion:'Mecanismo',	
+						fallas:[
+							1, 2, 3, 4, 5, 10, 11
+						]
+					}
+				]
+			}
+		]
+	}
+]

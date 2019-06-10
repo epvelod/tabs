@@ -34,10 +34,10 @@ export default class ItemFallas extends React.Component {
     		}}>
     		<View style={{flex: 1,
     			flexDirection: 'row',
-    			justifyContent: 'space-evenly',
+    			justifyContent: 'flex-start' ,
     			padding: 5}}>
     			<CheckBox></CheckBox>
-    			<Descripcion style={{marginTop: 5, marginLeft: 10}}>
+    			<Descripcion style={{marginTop: 0, marginLeft: 0, marginRight: 20}}>
     				{this.props.children}
     			</Descripcion>
     		</View>

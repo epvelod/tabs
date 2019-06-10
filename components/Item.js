@@ -22,6 +22,8 @@ export default class Item extends React.Component {
 		Colors.pendiente,
 		Colors.modificado,
 		Colors.completo];
+	const MAX_TEXT = 100;
+	const text = this.props.children?(this.props.children.length>MAX_TEXT?(this.props.children.substring(0, MAX_TEXT)+'...'):this.props.children):'';
 
     return (
 		<View style={{
@@ -45,7 +47,7 @@ export default class Item extends React.Component {
 			        name="cloud"
 			        size={26}
 			        style={{ paddingLeft: 10 }}
-			        color={level[Math.floor( Math.random()*3)]}
+			        color={level[this.props.estatus]}
 			      />
 			</View>
 			<View style={{flex: 4,
@@ -57,8 +59,8 @@ export default class Item extends React.Component {
 			  flexDirection: 'column',
 			  justifyContent: 'space-evenly',
 			  padding: 5}}>
-			    <SubTitulo>Vehículo 1</SubTitulo>
-			    <Descripcion style={{fontSize: 12}}>Resumen de la encuesta e información del vehículo</Descripcion>
+			    <SubTitulo>{this.props.titulo}</SubTitulo>
+			    <Descripcion style={{fontSize: 12}}>{text}</Descripcion>
 			  </View>
 			</View>
 

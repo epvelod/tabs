@@ -1,0 +1,32 @@
+[
+	{
+		nomatividad_vehiculo_persona: {
+			vehiculo: {
+				id_vehiculo: 0,
+				codigo_vehiculo: 'COD1',
+				descripcion: 'Es un cinco puertas con motor delantero transversal, que se comercializa desde el año 2006 con tracción delantera o a las cuatro ruedas, y con cinco o siete plazas.',
+				estatus: 0,
+			}
+		}
+	},
+	{
+		nomatividad_vehiculo_persona: {
+			vehiculo: {
+				id_vehiculo: 1,
+				codigo_vehiculo: 'COD2',
+				descripcion: 'Es un cinco puertas con motor delantero transversal, que se comercializa desde el año 2006 con tracción delantera o a las cuatro ruedas, y con cinco o siete plazas.',
+				estatus: 1,
+			}
+		}
+	},
+	{
+		nomatividad_vehiculo_persona: {
+			vehiculo: {
+				id_vehiculo: 2,
+				codigo_vehiculo: 'COD3',
+				descripcion: 'Es un cinco puertas con motor delantero transversal, que se comercializa desde el año 2006 con tracción delantera o a las cuatro ruedas, y con cinco o siete plazas.',
+				estatus: 2,
+			}
+		}
+	},
+]

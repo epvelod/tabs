@@ -27,6 +27,8 @@ import Colors from '../constants/Colors';
 
 import { Icon } from 'expo';
 
+import accion from '../data/accion.json';
+
 export default class RegistroFalla extends React.Component {
 
   constructor(props){
@@ -39,6 +41,16 @@ export default class RegistroFalla extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+    const id_falla = navigation.getParam('id_falla', 'NO-ID');
+
+    const items = accion.map(({id_accion_falla, descripcion}, index) => 
+        <ItemAccion>
+          {descripcion}
+        </ItemAccion>
+
+      );
+
     return (
     <View style={{
     	flex: 1,}}>
@@ -60,9 +72,10 @@ export default class RegistroFalla extends React.Component {
     			<SubTitulo>Acciones:</SubTitulo>
     		</View>
     		<ScrollView>
-    			<ItemAccion>Abollado o roto por contacto externo</ItemAccion>
+          {items}
     		</ScrollView>
     		<View style={{marginBottom: 50,
+              marginTop: 20,
         			flexDirection: 'row',
         			justifyContent: 'space-evenly',}}>
     			<View style={{

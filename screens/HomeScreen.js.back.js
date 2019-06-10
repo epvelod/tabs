@@ -23,8 +23,6 @@ import Item from '../components/Item';
 import { bookListQuery } from '../constants/Queries';
 import Colors from '../constants/Colors';
 
-import vehiculos from '../data/vehiculos.json';
-import usuario from '../data/usuario.json';
 
 
 
@@ -35,10 +33,12 @@ const client = new ApolloClient({
 
 export default class HomeScreen extends React.Component {
 
+  folderPath = `${FileSystem.documentDirectory}formas`;
 
   state = {
     isLoadingComplete: false,
-    texto: '',
+    info: {as:'sd'},
+    texto: 'esto es algo de texto',
   };
 
   static navigationOptions = {
@@ -46,11 +46,25 @@ export default class HomeScreen extends React.Component {
   };
 
   _loadResourcesAsync = async () => {
+    const props =  await FileSystem.getInfoAsync(`${this.folderPath}`);
+
+    if (!props.exists) {
+      await FileSystem.makeDirectoryAsync(this.folderPath, {
+        intermediates: true,
+      });
+    }
+    testFolder = await FileSystem.getInfoAsync(`${this.folderPath}`);
+
+    await FileSystem.writeAsStringAsync(`${this.folderPath}/codigo.json`, JSON.stringify(this.state), { encoding: FileSystem.EncodingTypes.UTF8 });
+
+    this.setState({...this.state,info:props});
   };
 
 
   info = async () => {
-
+    const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/codigo.json`, { encoding: FileSystem.EncodingTypes.UTF8 });
+    const estado = JSON.parse(content);
+    this.setState({...this.state,info:content, texto : estado.texto + '_a' });
   }
 
   _handleLoadingError = error => {
@@ -75,20 +89,6 @@ export default class HomeScreen extends React.Component {
       );
     } else {
 
-
-    const items = vehiculos.map(({ nomatividad_vehiculo_persona }, index) => 
-                     <Item 
-                      key={index} 
-                      titulo={nomatividad_vehiculo_persona.vehiculo.codigo_vehiculo}
-                      estatus={nomatividad_vehiculo_persona.vehiculo.estatus}
-                      onEvaluar={() => this.props.navigation.navigate('Instrucciones', { id_vehiculo: nomatividad_vehiculo_persona.vehiculo.id_vehiculo })}
-                      onGrafica={() => this.props.navigation.navigate('Instrucciones')}
-                      onDescargar={() => this.props.navigation.navigate('Formulario')}>
-                        {nomatividad_vehiculo_persona.vehiculo.descripcion}
-                      </Item> 
-                  );
-
-
     return (
       <ApolloProvider client={client}>
           <View style={{
@@ -110,11 +110,31 @@ export default class HomeScreen extends React.Component {
               </TouchableWithoutFeedback>
               </View>
               <View style={{marginBottom: 40}}>
-                <Descripcion>Recuerda descargar y subir tus formas usando el icono de nube. {usuario.password} == {JSON.stringify(this.state.texto)}</Descripcion>
+                <Descripcion>Recuerda descargar y subir tus formas usando el icono de nube. {this.state.texto}</Descripcion>
               </View>
-              <View>
-                {items}
-              </View>
+              <Query query={gql`{
+                    bookList { 
+                      id 
+                      name 
+                      pageCount
+                    } 
+                  }
+                `}>
+                {({ loading, error, data }) => {
+                  if (loading) return (<ActivityIndicator/>);
+                  if (error) return (<ActivityIndicator/>);
+
+                  return data.bookList.map(({ id, name, pageCount }, index) => {
+
+
+                     return (<Item 
+                      key={index} 
+                      onEvaluar={() => this.props.navigation.navigate('Instrucciones')}
+                      onGrafica={() => this.props.navigation.navigate('Instrucciones')}
+                      onDescargar={() => this.props.navigation.navigate('Formulario')}></Item> );
+                  });
+                }}
+              </Query>
 
             </View>
           </View>

@@ -23,6 +23,9 @@ import ItemIntruccion from '../components/ItemIntruccion';
 import { bookListQuery } from '../constants/Queries';
 import Colors from '../constants/Colors';
 
+import formularios from '../data/formularios.json';
+import respuestas from '../data/respuestas.json';
+
 export default class Instrucciones extends React.Component {
   
 
@@ -39,6 +42,20 @@ export default class Instrucciones extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+    const id_vehiculo = navigation.getParam('id_vehiculo', 'NO-ID');
+    const formulario = formularios.filter((e) => e.id_vehiculo === id_vehiculo)[0]||{instrucciones:[]};
+
+    const items = formulario.instrucciones.map((ensamble, index) => 
+        <ItemIntruccion 
+          key={index} 
+          onPress={() => this.props.navigation.navigate('Instruccion', {ensamble:ensamble})}
+          marked={true}
+        >
+          {ensamble.instruccion}
+        </ItemIntruccion>
+      );
+
     return (
           <View style={{
               flex: 1,}}>
@@ -56,55 +73,8 @@ export default class Instrucciones extends React.Component {
               <View style={{marginBottom: 20}}>
                 <Titulo>Intrucciones</Titulo>
               </View>
-
         	<ScrollView>
-              <ItemIntruccion 
-                onPress={() => this.props.navigation.navigate('Instruccion')}
-                marked={true}
-              >
-              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
-              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
-              </ItemIntruccion>
-              <ItemIntruccion 
-                onPress={() => this.props.navigation.navigate('Instruccion')}
-                marked={true}
-              >
-              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
-              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
-              </ItemIntruccion>
-              <ItemIntruccion 
-                onPress={() => this.props.navigation.navigate('Instruccion')}
-                marked={true}
-              >
-              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
-              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
-              </ItemIntruccion>
-              <ItemIntruccion 
-                onPress={() => this.props.navigation.navigate('Instruccion')}
-                marked={true}
-                selected={true}
-              >
-              I took to GitHub to do some digging on using nth-child in React Native because surely I'm not the first developer to have stumbled across this
-              </ItemIntruccion>
-              <ItemIntruccion 
-                onPress={() => this.props.navigation.navigate('Instruccion')}
-                marked={false}
-              >
-              I took to GitHub to
-              </ItemIntruccion>
-              <ItemIntruccion 
-                onPress={() => this.props.navigation.navigate('Instruccion')}
-                marked={false}
-              >
-              I took to GitHub to
-              </ItemIntruccion>
-              <ItemIntruccion 
-                onPress={() => this.props.navigation.navigate('Instruccion')}
-                marked={false}
-              >
-              I took to GitHub to
-              </ItemIntruccion>
-
+              {items}
         	</ScrollView>
             </View>
           </View>

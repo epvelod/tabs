@@ -1,0 +1,36 @@
+[
+	{
+		id_vehiculo:0,
+		instrucciones:[
+			{
+				id_ensamble: 0,
+				componentes: [
+					{
+						id_componente: 0,
+						fallas:[
+							4, 9
+						]
+					},
+					{
+						id_componente: 1,
+						fallas:[
+							1, 2, 3, 4, 6
+						]
+					},
+					{
+						id_componente: 1,
+						fallas:[
+							1, 2, 3, 4, 5, 6
+						]
+					},
+					{
+						id_componente: 1,
+						fallas:[
+							1, 2, 3, 4, 5
+						]
+					}
+				]
+			}
+		]
+	}
+]

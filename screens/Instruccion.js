@@ -43,6 +43,17 @@ export default class Instruccion extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+    const { id_ensamble, descripcion, instruccion, componentes } = navigation.getParam('ensamble', 'NO-ID')||{componentes:[]};
+
+    const items = componentes.map(({id_componente, descripcion, fallas}, index) => 
+        <ItemComponente 
+          key={index} 
+          onPress={() => this.props.navigation.navigate('Fallas', {fallas: fallas})}>
+          {descripcion}
+        </ItemComponente>
+      );
+
     return (
     <View style={{
       flex: 1,}}>
@@ -59,23 +70,12 @@ export default class Instruccion extends React.Component {
         }}>
         <View style={{marginBottom: 30}}>
           <Titulo>Instrucción</Titulo>
-          <Descripcion style={{textAlign: 'justify' }}>Inspeccione visual y manualmente con el motor encendido, presionando manualmente el pedal del acelerador y soltandolo.
-            Al soltar el pedal el motor debe regresar a la posiciòn no acelerada.
+          <Descripcion style={{textAlign: 'justify' }}>
+            {instruccion}
           </Descripcion>
         </View>
         <ScrollView style={{paddingLeft: 30}}>
-          <ItemComponente onPress={() => this.props.navigation.navigate('Fallas')}>
-            Pedal del acelerador
-          </ItemComponente>
-          <ItemComponente onPress={() => this.props.navigation.navigate('Fallas')}>
-            Sensor
-          </ItemComponente>
-          <ItemComponente onPress={() => this.props.navigation.navigate('Fallas')}>
-            Soporte
-          </ItemComponente>
-          <ItemComponente onPress={() => this.props.navigation.navigate('Fallas')}>
-            Acoplamiento
-          </ItemComponente>
+          {items}
         </ScrollView>
         <View style={{marginLeft: 10, marginBottom: 20, alignItems: 'flex-end' }}>
           <BotonListo 
