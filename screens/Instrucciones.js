@@ -78,7 +78,7 @@ export default class Instrucciones extends React.Component {
               paddingHorizontal: 20,
               }}>
               <View style={{marginBottom: 20}}>
-                <Titulo>Intrucciones</Titulo>
+                <Titulo>Procedimiento de verificación</Titulo>
               </View>
         	<ScrollView>
               {items}

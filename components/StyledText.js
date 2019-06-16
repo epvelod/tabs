@@ -72,3 +72,33 @@ export class Dato extends React.Component {
     	]} />;
   }
 }
+
+
+export class TituloPequeno extends React.Component {
+  render() {
+    return <Text {...this.props} style={[this.props.style, 
+      
+  {
+                  fontFamily: 'Microsoft YaHei',
+                  fontSize: 20,
+                  marginTop: 16,
+                  marginBottom: 10,
+    }
+
+      ]} />;
+  }
+}
+
+export class SubTituloPequeno extends React.Component {
+  render() {
+    return <Text {...this.props} style={[this.props.style, 
+      
+  {
+                  fontFamily: 'Microsoft YaHei',
+                  fontSize: 14,
+                  marginTop: 5,
+    }
+
+      ]} />;
+  }
+}

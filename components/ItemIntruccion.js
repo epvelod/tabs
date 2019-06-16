@@ -23,7 +23,7 @@ export default class ItemIntruccion extends React.Component {
 	const diametro=this.props.selected?22:this.props.marked?15:18;
 	const left=20;
 
-	const text = this.props.children?(this.props.children.length>140?(this.props.children.substring(0, 140)+'...'):this.props.children):'';
+	const text = this.props.children?(this.props.children.length>120?(this.props.children.substring(0, 120)+'...'):this.props.children):'';
 	const color = this.props.selected?Colors.negro:this.props.marked?Colors.grisOscuro:'#fff';
 
     return (

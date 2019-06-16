@@ -73,7 +73,7 @@ export default class Instruccion extends React.Component {
         paddingHorizontal: 20,
         }}>
         <View style={{marginBottom: 30}}>
-          <Titulo>Instrucción</Titulo>
+          <Titulo>Instrucción o Prueba</Titulo>
           <Descripcion style={{textAlign: 'justify' }}>
             {instruccion}
           </Descripcion>
