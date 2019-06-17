@@ -27,29 +27,21 @@ import ItemComponente from '../components/ItemComponente';
 import { bookListQuery } from '../constants/Queries';
 import Colors from '../constants/Colors';
 
-import respuestas from '../data/respuestas.json';
-
 export default class Instruccion extends React.Component {
-  
-
-
-  constructor(props){
-    super(props);
-
-  }
-
-
-
   static navigationOptions = {
     header: null,
   };
+  constructor(props){
+    super(props);
+  }
 
   render() {
     const { navigation } = this.props;
-    const { id_ensamble, descripcion, instruccion, componentes } = navigation.getParam('ensamble', 'NO-ID')||{componentes:[]};
-    const id_vehiculo = navigation.getParam('id_vehiculo', 'NO-ID');
-    const componentesRespuesta = navigation.getParam('componentes', 'NO-ID');
 
+    const traza = navigation.getParam('traza', undefined);
+    const respuestas = navigation.getParam('respuestas', undefined);
+    const {componentes,instruccion} = navigation.getParam('data', {instruccion:'...',componentes:[]});
+    console.log(componentes);
     const items = componentes.map(({id_componente, descripcion, fallas}, index) => 
         <ItemComponente 
           key={index} 
@@ -83,7 +75,7 @@ export default class Instruccion extends React.Component {
         </ScrollView>
         <View style={{marginLeft: 10, marginBottom: 20, alignItems: 'flex-end' }}>
           <BotonListo 
-            onPress={() => this.props.navigation.navigate('Instruccion')}
+            onPress={() => this.props.navigation.goBack()}
             ></BotonListo>
           </View>
         </View>
