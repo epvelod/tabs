@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 
-import { AppLoading } from 'expo';
+import { AppLoading, FileSystem } from 'expo';
 
 import { MonoText, Titulo, Descripcion } from '../components/StyledText';
 import BotonListo from '../components/BotonListo';
@@ -16,6 +16,7 @@ import ItemComponente from '../components/ItemComponente';
 import Colors from '../constants/Colors';
 
 export default class Instruccion extends React.Component {
+  folderPath = `${FileSystem.documentDirectory}formas`;
   static navigationOptions = {
     header: null,
   };
@@ -36,10 +37,15 @@ export default class Instruccion extends React.Component {
   _loadResourcesAsync = async () => {
     /*rescue information*/
     const { navigation } = this.props;
+
     const traza = navigation.getParam('traza', undefined);
-    const respuestas = navigation.getParam('respuestas', undefined);
+    const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingTypes.UTF8 });
+    const respuestas = JSON.parse(content)||[];
     const data = navigation.getParam('data', {instruccion:'...',componentes:[]});
 
+    console.log(traza);
+    console.log(respuestas);
+    console.log(data);
     this.setState({ 
       ...this.state, 
       isLoadingComplete: true,

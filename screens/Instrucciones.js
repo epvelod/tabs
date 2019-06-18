@@ -58,7 +58,10 @@ export default class Instrucciones extends React.Component {
     for (var i = 0; i < obj.length; i++) {
       if(obj[i].id_normatividad === traza.id_normatividad && obj[i].id_normatividad === traza.id_normatividad) {
         respuesta = obj[i];
-        respuesta.instrucciones = respuesta.instrucciones.length > 0 ? respuesta.instrucciones: [formulario.instrucciones[0]];
+        respuesta.instrucciones = respuesta.instrucciones.length > 0 ? respuesta.instrucciones: 
+          [{
+            id_ensamble:formulario.instrucciones[0].id_ensamble
+          }];
         containAnswer = true;
       }
     }
@@ -67,16 +70,19 @@ export default class Instrucciones extends React.Component {
       respuesta = {
         id_vehiculo: traza.id_vehiculo,
         id_normatividad: traza.id_normatividad,
-        instrucciones: [formulario.instrucciones[0]]
+        instrucciones: [{
+          id_ensamble:formulario.instrucciones[0].id_ensamble
+        }]
       };
       
       obj.push(respuesta);
-
-      await FileSystem.writeAsStringAsync(
-        `${this.folderPath}/respuestas.json`, 
-        JSON.stringify(obj), 
-        { encoding: FileSystem.EncodingTypes.UTF8 });
     }
+
+
+    await FileSystem.writeAsStringAsync(
+      `${this.folderPath}/respuestas.json`, 
+      JSON.stringify(obj), 
+      { encoding: FileSystem.EncodingTypes.UTF8 });
 
     console.log(obj);
 
@@ -96,12 +102,10 @@ export default class Instrucciones extends React.Component {
   _onItemClick(ensamble){
     this.state.traza.instruccion.ensamble = {};
     this.state.traza.instruccion.ensamble.id_ensamble = ensamble.id_ensamble;
-    this.state.traza.instruccion.ensamble.componentes = ensamble.id_ensamble;
 
     this.props.navigation.navigate('Instruccion', 
     {
       traza:this.state.traza,
-      respuestas:this.state.respuestas,
       data: ensamble
     });
   }
