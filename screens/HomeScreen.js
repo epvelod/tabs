@@ -41,6 +41,7 @@ const client = new ApolloClient({
 });
 
 export default class HomeScreen extends React.Component {
+  folderPath = `${FileSystem.documentDirectory}formas`;
   state = {
     /*View*/
     isLoadingComplete: false,
@@ -55,6 +56,19 @@ export default class HomeScreen extends React.Component {
 
   /*Loading method*/
   _loadResourcesAsync = async () => {
+    const props =  await FileSystem.getInfoAsync(`${this.folderPath}`);
+    if (!props.exists) {
+      await FileSystem.makeDirectoryAsync(this.folderPath, {
+        intermediates: true,
+      });
+    }
+    const propsFile =  await FileSystem.getInfoAsync(`${this.folderPath}/respuestas.json`);
+    if (!props.exists) {
+      await FileSystem.writeAsStringAsync(
+        `${this.folderPath}/respuestas.json`, 
+        JSON.stringify([]), 
+        { encoding: FileSystem.EncodingTypes.UTF8 });
+    }
   };
   _handleLoadingError = error => {
   };

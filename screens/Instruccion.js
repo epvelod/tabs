@@ -7,6 +7,8 @@ import {
   View,
 } from 'react-native';
 
+import { AppLoading } from 'expo';
+
 import { MonoText, Titulo, Descripcion } from '../components/StyledText';
 import BotonListo from '../components/BotonListo';
 import ItemComponente from '../components/ItemComponente';
@@ -18,31 +20,64 @@ export default class Instruccion extends React.Component {
     header: null,
   };
   state={
+    isLoadingComplete: false,
+    /*data*/
     selecteds:[],
+    traza: {},
+    respuestas: {},
+    data: {},
   }
+
   constructor(props){
     super(props);
   }
+
+  /*Loading method*/
+  _loadResourcesAsync = async () => {
+    /*rescue information*/
+    const { navigation } = this.props;
+    const traza = navigation.getParam('traza', undefined);
+    const respuestas = navigation.getParam('respuestas', undefined);
+    const data = navigation.getParam('data', {instruccion:'...',componentes:[]});
+
+    this.setState({ 
+      ...this.state, 
+      isLoadingComplete: true,
+      traza: traza,
+      respuestas: respuestas,
+      data: data, 
+    });
+  };
+  _handleLoadingError = error => {
+  };
+  _handleFinishLoading = () => {
+    this.setState({ ...this.state, isLoadingComplete: true });
+  };
+
   _onChange(index){
-    console.log(index);
     const selecteds = this.state.selecteds;
     selecteds[index] = !selecteds[index];
-    console.log(selecteds);
+    
+    const componente = this.state.data.componentes[index];
+
     this.setState({
       ...this.state,
       selecteds: selecteds,
     });
   }
   render() {
-    /*rescue information*/
-    const { navigation } = this.props;
-    const traza = navigation.getParam('traza', undefined);
-    const respuestas = navigation.getParam('respuestas', undefined);
-    const {componentes,instruccion} = navigation.getParam('data', {instruccion:'...',componentes:[]});
-    console.log(traza);
-    console.log(respuestas);
+    /*Cargando...*/
+    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+      return (
+        <AppLoading
+          startAsync={this._loadResourcesAsync}
+          onError={this._handleLoadingError}
+          onFinish={this._handleFinishLoading}
+        />
+      );
+    }
     /*build itmes*/
-    const items = componentes.map(({id_componente, descripcion, fallas}, index) => {
+    const items = this.state.data.componentes.map(({id_componente, descripcion, fallas}, index) => {
         return (<ItemComponente 
           key={index} 
           onPress={() => this.props.navigation.navigate('Fallas', {fallas: fallas})}
@@ -70,7 +105,7 @@ export default class Instruccion extends React.Component {
         <View style={{marginBottom: 30}}>
           <Titulo>Instrucción o Prueba</Titulo>
           <Descripcion style={{textAlign: 'justify' }}>
-            {instruccion}
+            {this.state.data.instruccion}
           </Descripcion>
         </View>
         <ScrollView style={{paddingLeft: 10}}>

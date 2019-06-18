@@ -8,6 +8,10 @@
 				componentes: [
 					{
 						id_componente: 0,
+						reparar: false,
+						fechaReprogramacion: 1560825505454, //time
+						valor: 34,
+						foto: 'base64',
 						fallas:[
 							{
 								id_falla: 1,
@@ -28,6 +32,10 @@
 					},
 					{
 						id_componente: 1,
+						reparar: false,
+						fechaReprogramacion: 1560825505454, //time
+						valor: 34,
+						foto: 'base64',
 						fallas:[
 							{
 								id_falla: 1,
@@ -48,6 +56,10 @@
 					},
 					{
 						id_componente: 2,
+						reparar: false,
+						fechaReprogramacion: 1560825505454, //time
+						valor: 34,
+						foto: 'base64',
 						fallas:[
 							{
 								id_falla: 6,
@@ -68,6 +80,10 @@
 					},
 					{
 						id_componente: 3,
+						reparar: false,
+						fechaReprogramacion: 1560825505454, //time
+						valor: 34,
+						foto: 'base64',
 						fallas:[
 							{
 								id_falla: 5,
