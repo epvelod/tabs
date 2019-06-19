@@ -32,7 +32,7 @@ export default class Instruccion extends React.Component {
   constructor(props){
     super(props);
   }
-
+  /**--------------------------- Eventos -----------------------*/
   /*Loading method*/
   _loadResourcesAsync = async () => {
     /*rescue information*/
@@ -42,10 +42,9 @@ export default class Instruccion extends React.Component {
     const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingTypes.UTF8 });
     const respuestas = JSON.parse(content)||[];
     const data = navigation.getParam('data', {instruccion:'...',componentes:[]});
+    const componentesAnswer = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo && e.id_normatividad === traza.id_normatividad )[0]
+    .instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0].componentes;
 
-    console.log(traza);
-    console.log(respuestas);
-    console.log(data);
     this.setState({ 
       ...this.state, 
       isLoadingComplete: true,
@@ -59,18 +58,71 @@ export default class Instruccion extends React.Component {
   _handleFinishLoading = () => {
     this.setState({ ...this.state, isLoadingComplete: true });
   };
-
-  _onChange(index){
+  async _onChange(index){
     const selecteds = this.state.selecteds;
     selecteds[index] = !selecteds[index];
     
     const componente = this.state.data.componentes[index];
+    const compSelected = [];
+
+    for (var i = 0; i < selecteds.length; i++) {
+      if(selecteds[i]) {
+        compSelected.push(this.state.data.componentes[i]);
+      }
+    }
+    console.log('compSelected');
+    console.log(compSelected);
+    await this.registrarComponente(compSelected);
 
     this.setState({
       ...this.state,
       selecteds: selecteds,
     });
   }
+  /**--------------------------- Util -----------------------*/
+  async registrarComponente(componentes) {
+    const respuestas = this.state.respuestas;
+    const traza = this.state.traza;
+
+    console.log('respuestas');
+    console.log(respuestas);
+    console.log('traza');
+    console.log(traza);
+    console.log('componentes');
+    console.log(componentes);
+    let comRes=[];
+    for (var i = 0; i < respuestas.length; i++) {
+      if(respuestas[i].id_vehiculo === traza.id_vehiculo && respuestas[i].id_normatividad === traza.id_normatividad ) {
+        for (var j = 0; j < respuestas[i].instrucciones.length; j++) {
+          if(respuestas[i].instrucciones[j].id_ensamble === traza.instruccion.ensamble.id_ensamble ) {
+            for (var k = 0; k < componentes.length; k++) {
+              comRes.push({
+                id_componente : componentes[k].id_componente,
+                fallas:[]
+              });
+            }
+
+            respuestas[i].instrucciones[j].componentes = comRes;
+
+            await FileSystem.writeAsStringAsync(
+              `${this.folderPath}/respuestas.json`, 
+              JSON.stringify(respuestas), 
+              { encoding: FileSystem.EncodingTypes.UTF8 });
+            
+            console.log(respuestas);
+
+            this.setState({
+              ...this.state,
+              respuestas: respuestas,
+            });
+
+            return respuestas;
+          }
+        }
+      }
+    }
+  }
+
   render() {
     /*Cargando...*/
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
