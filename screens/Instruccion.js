@@ -42,8 +42,7 @@ export default class Instruccion extends React.Component {
     const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingTypes.UTF8 });
     const respuestas = JSON.parse(content)||[];
     const data = navigation.getParam('data', {instruccion:'...',componentes:[]});
-    const componentesAnswer = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo && e.id_normatividad === traza.id_normatividad )[0]
-    .instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0].componentes;
+    await this.pintaComponente(respuestas,traza,data);
 
     this.setState({ 
       ...this.state, 
@@ -70,8 +69,7 @@ export default class Instruccion extends React.Component {
         compSelected.push(this.state.data.componentes[i]);
       }
     }
-    console.log('compSelected');
-    console.log(compSelected);
+    
     await this.registrarComponente(compSelected);
 
     this.setState({
@@ -80,16 +78,32 @@ export default class Instruccion extends React.Component {
     });
   }
   /**--------------------------- Util -----------------------*/
+  async pintaComponente(respuestas,traza,data) {
+    const componentsList = data.componentes;
+    const selecteds = this.state.selecteds;
+
+    const componentsAnswer = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo && e.id_normatividad === traza.id_normatividad )[0]
+    .instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0].componentes;
+
+    for (var i = 0; i < componentsList.length; i++) {
+      for (var j = 0; j < componentsAnswer.length; j++) {
+        if( componentsAnswer[j].id_componente == componentsList[i].id_componente) {
+          selecteds[i] = true;
+        }
+      }
+    }
+
+
+    this.setState({
+      ...this.state,
+      selecteds: selecteds,
+    });
+
+  }
   async registrarComponente(componentes) {
     const respuestas = this.state.respuestas;
     const traza = this.state.traza;
 
-    console.log('respuestas');
-    console.log(respuestas);
-    console.log('traza');
-    console.log(traza);
-    console.log('componentes');
-    console.log(componentes);
     let comRes=[];
     for (var i = 0; i < respuestas.length; i++) {
       if(respuestas[i].id_vehiculo === traza.id_vehiculo && respuestas[i].id_normatividad === traza.id_normatividad ) {
@@ -108,8 +122,6 @@ export default class Instruccion extends React.Component {
               `${this.folderPath}/respuestas.json`, 
               JSON.stringify(respuestas), 
               { encoding: FileSystem.EncodingTypes.UTF8 });
-            
-            console.log(respuestas);
 
             this.setState({
               ...this.state,
