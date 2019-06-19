@@ -78,7 +78,7 @@ export default class Fallas extends React.Component {
        </ScrollView>
        <View style={{marginLeft: 10, marginBottom: 20, alignItems: 'flex-end' }}>
         <BotonListo 
-          onPress={() => this.props.navigation.navigate('Instruccion')}
+          onPress={() => this.props.navigation.navigate('Instrucción')}
           ></BotonListo>
         </View>
       </View>
