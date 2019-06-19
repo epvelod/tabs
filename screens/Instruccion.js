@@ -11,6 +11,7 @@ import { AppLoading, FileSystem } from 'expo';
 
 import { MonoText, Titulo, Descripcion } from '../components/StyledText';
 import BotonListo from '../components/BotonListo';
+import BotonCamara from '../components/BotonCamara';
 import ItemComponente from '../components/ItemComponente';
 
 import Colors from '../constants/Colors';
@@ -192,13 +193,22 @@ export default class Instruccion extends React.Component {
         <ScrollView style={{paddingLeft: 10}}>
           {items}
         </ScrollView>
-        <View style={{marginLeft: 10, marginBottom: 20, alignItems: 'flex-end' }}>
+        <View style={{
+          marginLeft: 10, 
+          marginBottom: 20, 
+          justifyContent: 'space-evenly',
+          flexDirection: 'row',
+          alignItems: 'flex-end' 
+        }}>
+          <BotonCamara 
+          onPress={() => this.props.navigation.goBack()}>
+          </BotonCamara>
           <BotonListo 
-            onPress={() => this.props.navigation.goBack()}
-            ></BotonListo>
-          </View>
+          onPress={() => this.props.navigation.goBack()}>
+          </BotonListo>
         </View>
       </View>
+    </View>
     );
   }
 

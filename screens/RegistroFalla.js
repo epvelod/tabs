@@ -21,6 +21,7 @@ import { MonoText, Titulo, Descripcion, SubTitulo } from '../components/StyledTe
 import Card from '../components/Card';
 import ItemAccion from '../components/ItemAccion';
 import BotonListo from '../components/BotonListo';
+import BotonCamara from '../components/BotonCamara';
 
 import { bookListQuery } from '../constants/Queries';
 import Colors from '../constants/Colors';
@@ -74,32 +75,22 @@ export default class RegistroFalla extends React.Component {
     		<ScrollView>
           {items}
     		</ScrollView>
-    		<View style={{marginBottom: 50,
-              marginTop: 20,
-        			flexDirection: 'row',
-        			justifyContent: 'space-evenly',}}>
-    			<View style={{
-    				width: 80,
-    				height: 80,
-    				backgroundColor: Colors.grisOscuro,
-    				borderRadius: 5,
-    				alignItems: 'center',
-    				justifyContent: 'center',
-    			}}>
-						<Icon.FontAwesome
-							name="camera"
-							size={25}
-							color='#fff'
-							/>
-    			</View>
-    		</View>
-    		<View style={{marginLeft: 10, marginBottom: 20, alignItems: 'flex-end' }}>
-    			<BotonListo 
-    				onPress={() => this.props.navigation.goBack()}
-    				></BotonListo>
-    			</View>
-    		</View>
+        <View style={{
+          marginLeft: 10, 
+          marginBottom: 20, 
+          justifyContent: 'space-evenly',
+          flexDirection: 'row',
+          alignItems: 'flex-end' 
+        }}>
+          <BotonCamara 
+          onPress={() => this.props.navigation.goBack()}>
+          </BotonCamara>
+          <BotonListo 
+          onPress={() => this.props.navigation.goBack()}>
+          </BotonListo>
+        </View>
     	</View>
+    </View>
     );
   }
 

@@ -15,6 +15,7 @@ import { AppLoading, FileSystem, } from 'expo';
 import { MonoText, Titulo, Descripcion } from '../components/StyledText';
 import Item from '../components/Item';
 import ItemIntruccion from '../components/ItemIntruccion';
+import BotonListo from '../components/BotonListo';
 
 import { bookListQuery } from '../constants/Queries';
 import Colors from '../constants/Colors';
@@ -145,27 +146,35 @@ export default class Instrucciones extends React.Component {
     );
 
     return (
-          <View style={{
-              flex: 1,}}>
-            <View style={{
-                height: 25,
-                backgroundColor: Colors.negro}}>
-            </View>
-            <View style={{
-              flex: 1,
-              alignItems: 'stretch',
-              backgroundColor: '#fff',
-              paddingVertical: 10,
-              paddingHorizontal: 20,
-              }}>
-              <View style={{marginBottom: 20}}>
-                <Titulo>Procedimiento de verificación</Titulo>
-              </View>
-        	<ScrollView>
-              {items}
-        	</ScrollView>
-            </View>
+      <View style={{
+        flex: 1,}}>
+        <View style={{
+          height: 25,
+          backgroundColor: Colors.negro}}>
+        </View>
+        <View style={{
+          flex: 1,
+          alignItems: 'stretch',
+          backgroundColor: '#fff',
+          paddingVertical: 10,
+          paddingHorizontal: 20,
+          }}>
+          <View style={{marginBottom: 20}}>
+            <Titulo>Procedimiento de verificación</Titulo>
           </View>
+          <ScrollView>
+            {items}
+          </ScrollView>
+        </View>
+        <View style={{
+          margin: 20,
+          alignItems: 'flex-end' 
+        }}>
+          <BotonListo 
+          onPress={() => this.props.navigation.goBack()}>
+          </BotonListo>
+        </View>
+      </View>
     );
   }
 

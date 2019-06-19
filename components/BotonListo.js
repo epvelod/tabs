@@ -25,12 +25,12 @@ export default class BotonListo extends React.Component {
 <TouchableOpacity
    style={{
        borderWidth:1,
-       borderColor:Colors.grisOscuro,
+       borderColor:Colors.verdeClaro,
        alignItems:'center',
        justifyContent:'center',
        width:60,
        height:60,
-       backgroundColor:'#000',
+       backgroundColor:Colors.verdeObscuro,
        borderRadius:30,
      }}
 
