@@ -69,12 +69,23 @@ export default class Instruccion extends React.Component {
         compSelected.push(this.state.data.componentes[i]);
       }
     }
-    
+
     await this.registrarComponente(compSelected);
 
     this.setState({
       ...this.state,
       selecteds: selecteds,
+    });
+  }
+  _onItemClick(id_componente,fallas){
+    this.state.traza.instruccion.ensamble.componente = {};
+    this.state.traza.instruccion.ensamble.componente.id_componente = id_componente;
+    this.state.traza.instruccion.ensamble.componente.falla = {};
+
+    this.props.navigation.navigate('Fallas', 
+    {
+      traza:this.state.traza,
+      fallas: fallas,
     });
   }
   /**--------------------------- Util -----------------------*/
@@ -150,7 +161,7 @@ export default class Instruccion extends React.Component {
     const items = this.state.data.componentes.map(({id_componente, descripcion, fallas}, index) => {
         return (<ItemComponente 
           key={index} 
-          onPress={() => this.props.navigation.navigate('Fallas', {fallas: fallas})}
+          onPress={() => this._onItemClick(id_componente,fallas)}
           value={this.state.selecteds[index]}
           onChange={()=>this._onChange(index)}>
           {descripcion}
