@@ -69,7 +69,7 @@ export default class RegistroFalla extends React.Component {
 			const textFecha = f.getDate() + "/"+ f.getMonth()+ "/" +f.getFullYear();
     	extra = (
     		<View style={{marginBottom: 20}}>
-    			<SubTitulo>Fecha agendación: </SubTitulo>
+    			<SubTitulo style={{textAlign: 'center' }}>Fecha agendada de reparación: </SubTitulo>
     			<Text style={{
     				textAlign: 'center',
     				fontSize: 20,

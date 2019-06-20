@@ -16,6 +16,8 @@ import ItemComponente from '../components/ItemComponente';
 
 import Colors from '../constants/Colors';
 
+import formularios from '../data/formularios.json';
+
 export default class Instruccion extends React.Component {
   folderPath = `${FileSystem.documentDirectory}formas`;
   static navigationOptions = {
@@ -27,7 +29,7 @@ export default class Instruccion extends React.Component {
     selecteds:[],
     traza: {},
     respuestas: {},
-    data: {},
+    data: {componentes:[]},
   }
 
   constructor(props){
@@ -40,17 +42,21 @@ export default class Instruccion extends React.Component {
     const { navigation } = this.props;
 
     const traza = navigation.getParam('traza', undefined);
+    const data = navigation.getParam('data', {instruccion:'...',componentes:[]});
+
     const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingTypes.UTF8 });
     const respuestas = JSON.parse(content)||[];
-    const data = navigation.getParam('data', {instruccion:'...',componentes:[]});
-    await this.pintaComponente(respuestas,traza,data);
+    
+    const selecteds = await this.pintaComponente(respuestas,traza,data);
+
 
     this.setState({ 
       ...this.state, 
       isLoadingComplete: true,
       traza: traza,
       respuestas: respuestas,
-      data: data, 
+      data: data,
+      selecteds:selecteds,
     });
   };
   _handleLoadingError = error => {
@@ -78,10 +84,12 @@ export default class Instruccion extends React.Component {
       selecteds: selecteds,
     });
   }
-  _onItemClick(id_componente,fallas){
+  async _onItemClick(id_componente,fallas){
     this.state.traza.instruccion.ensamble.componente = {};
     this.state.traza.instruccion.ensamble.componente.id_componente = id_componente;
     this.state.traza.instruccion.ensamble.componente.falla = {};
+
+    this.state.respuestas
 
     this.props.navigation.navigate('Fallas', 
     {
@@ -94,9 +102,9 @@ export default class Instruccion extends React.Component {
     const componentsList = data.componentes;
     const selecteds = this.state.selecteds;
 
-    const componentsAnswer = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo && e.id_normatividad === traza.id_normatividad )[0]
-    .instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0].componentes;
-
+    const vihiculosAnswer = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo && e.id_normatividad === traza.id_normatividad )[0] || {instrucciones:[]}
+    const instruccionesAnswer = vihiculosAnswer.instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0]|| {componentes:[]};
+    const componentsAnswer = instruccionesAnswer.componentes || [];
     for (var i = 0; i < componentsList.length; i++) {
       for (var j = 0; j < componentsAnswer.length; j++) {
         if( componentsAnswer[j].id_componente == componentsList[i].id_componente) {
@@ -104,12 +112,7 @@ export default class Instruccion extends React.Component {
         }
       }
     }
-
-
-    this.setState({
-      ...this.state,
-      selecteds: selecteds,
-    });
+    return selecteds;
 
   }
   async registrarComponente(componentes) {
@@ -141,6 +144,40 @@ export default class Instruccion extends React.Component {
             });
 
             return respuestas;
+          }
+        }
+      }
+    }
+  }
+  async _terminar() {
+    await this._finInstruccion();
+    this.props.navigation.goBack();
+  }
+  async _finInstruccion() {
+    const respuestas = this.state.respuestas;
+    const traza = this.state.traza;
+
+    let comRes=[];
+    for (var i = 0; i < respuestas.length; i++) {
+      if(respuestas[i].id_vehiculo === traza.id_vehiculo && respuestas[i].id_normatividad === traza.id_normatividad ) {
+        for (var j = 0; j < respuestas[i].instrucciones.length; j++) {
+          if(respuestas[i].instrucciones[j].id_ensamble === traza.instruccion.ensamble.id_ensamble ) {
+
+
+            const inst = formularios.filter((e) => e.id_normatividad === traza.id_normatividad)[0].instrucciones;
+
+            if(j < inst.length && (j+1) === respuestas[i].instrucciones.length) {
+              respuestas[i].instrucciones.push({
+                  id_ensamble:inst[j+1].id_ensamble
+                });
+
+              await FileSystem.writeAsStringAsync(
+                `${this.folderPath}/respuestas.json`, 
+                JSON.stringify(respuestas), 
+                { encoding: FileSystem.EncodingTypes.UTF8 });
+              
+              return respuestas;
+            }
           }
         }
       }
@@ -204,7 +241,7 @@ export default class Instruccion extends React.Component {
           onPress={() => this.props.navigation.goBack()}>
           </BotonCamara>
           <BotonListo 
-          onPress={() => this.props.navigation.goBack()}>
+          onPress={() => this._terminar() }>
           </BotonListo>
         </View>
       </View>

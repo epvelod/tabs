@@ -37,6 +37,17 @@ export default class Instrucciones extends React.Component {
   constructor(props){
     super(props);
   }
+  componentDidMount() {
+    const didBlurSubscription = this.props.navigation.addListener(
+      'willFocus',
+      payload => {
+        this.setState({
+          ...this.state,
+          isLoadingComplete: false
+        });
+      }
+    );
+  }
   
   /*Loading method*/
   _loadResourcesAsync = async () => {
@@ -85,7 +96,6 @@ export default class Instrucciones extends React.Component {
       JSON.stringify(obj), 
       { encoding: FileSystem.EncodingTypes.UTF8 });
 
-    console.log(obj);
 
     this.setState({
       ...this.state,
@@ -104,12 +114,15 @@ export default class Instrucciones extends React.Component {
     this.state.traza.instruccion.ensamble = {};
     this.state.traza.instruccion.ensamble.id_ensamble = ensamble.id_ensamble;
 
+    console.log('ensamble');
+    console.log(ensamble);
+
     this.props.navigation.navigate('Instruccion', 
     {
       traza:this.state.traza,
       data: ensamble
     });
-  }
+  };
 
   render() {
     /*Cargando...*/
@@ -126,7 +139,6 @@ export default class Instrucciones extends React.Component {
     /*find or build information*/
     const formulario = formularios.filter((e) => e.id_normatividad === this.state.traza.id_normatividad)[0] || {instrucciones:[]};
     const respuesta = this.state.respuesta;
-    console.log(respuesta);
     /*build items*/
     const items = formulario.instrucciones.map((ensamble, index) => {
       const marked = (respuesta.instrucciones.length>0) 
