@@ -28,7 +28,11 @@ export default class ItemIntruccion extends React.Component {
 
     return (
 
-				<TouchableWithoutFeedback onPress={() => this.props.onPress()}>
+				<TouchableOpacity onPress={() => {
+					if(this.props.marked) {
+						this.props.onPress();
+					}
+				}}>
 		<View style={{
 		flexDirection: 'row',
 			height: altura,
@@ -66,7 +70,7 @@ export default class ItemIntruccion extends React.Component {
 			    <Descripcion style={{}}>{text}</Descripcion>
 			</View>
 		</View>
-				</TouchableWithoutFeedback>
+				</TouchableOpacity>
     );
   }
 }

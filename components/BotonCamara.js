@@ -16,34 +16,31 @@ import Colors from '../constants/Colors';
 import { MonoText, Titulo, SubTitulo, Descripcion, Dato } from '../components/StyledText';
 
 
-export default class BotonListo extends React.Component {
+export default class BotonCamara extends React.Component {
 
   render() {
 
     return (
-
-<TouchableOpacity
-   style={{
+      <TouchableOpacity
+       style={{
        borderWidth:1,
        borderColor:Colors.verdeClaro,
        alignItems:'center',
        justifyContent:'center',
        width:60,
        height:60,
-       backgroundColor:Colors.verdeObscuro,
+       backgroundColor:'#66cdaa',
        borderRadius:30,
-     }}
+       }}
 
-	onPress={() => this.props.onPress()}
- >
-      <Icon.FontAwesome
-        name="check"
+       onPress={() => this.props.onPress()}
+       >
+       <Icon.FontAwesome
+        name="camera"
         size={26}
-        color='#fff'
-      />
- </TouchableOpacity>
-
-
+        color="#fff"
+        />
+      </TouchableOpacity>
     );
   }
 }

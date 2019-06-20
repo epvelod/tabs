@@ -11,6 +11,7 @@ import Instrucciones from '../screens/Instrucciones';
 import Instruccion from '../screens/Instruccion';
 import Fallas from '../screens/Fallas';
 import RegistroFalla from '../screens/RegistroFalla';
+import Valoracion from '../screens/Valoracion';
 
 import Colors from '../constants/Colors';
 
@@ -21,6 +22,7 @@ export default HomeStack = createStackNavigator({
   Fallas: Fallas,
   Formulario: Formulario,
   RegistroFalla: RegistroFalla,
+  Valoracion: Valoracion,
 });
 
 HomeStack.navigationOptions = {
