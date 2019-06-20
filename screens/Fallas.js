@@ -49,40 +49,43 @@ export default class Fallas extends React.Component {
     });
 
     const items = falla.map(({id_falla, descripcion}, index) => 
-         <ItemFallas 
-          key={index} 
-         onPress={() => this.props.navigation.navigate('RegistroFalla', {id_falla:id_falla})}
-         onInfo={() => this.props.navigation.navigate('RegistroFalla', {id_falla:id_falla})}>
-         {descripcion}
-         </ItemFallas>
+        <ItemFallas 
+        key={index} 
+        onPress={() => this.props.navigation.navigate('RegistroFalla', {id_falla:id_falla})}
+        onInfo={() => this.props.navigation.navigate('Valoracion', {id_falla:id_falla})}
+        value={false}
+        onChange={()=>console.log('click')}>
+        {descripcion}
+        </ItemFallas>
       );
+
     return (
-    <View style={{
-      flex: 1,}}>
       <View style={{
-        height: 25,
-        backgroundColor: Colors.negro}}>
-      </View>
-      <View style={{
-        flex: 1,
-        alignItems: 'stretch',
-        backgroundColor: '#fff',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        }}>
-        <View style={{marginBottom: 20}}>
-         <Titulo>Fallas</Titulo>
-       </View>
-       <ScrollView>
-        {items}
-       </ScrollView>
-       <View style={{marginLeft: 10, marginBottom: 20, alignItems: 'flex-end' }}>
-        <BotonListo 
-          onPress={() => this.props.navigation.navigate('Instruccion')}
-          ></BotonListo>
+        flex: 1,}}>
+        <View style={{
+          height: 25,
+          backgroundColor: Colors.negro}}>
+        </View>
+        <View style={{
+          flex: 1,
+          alignItems: 'stretch',
+          backgroundColor: '#fff',
+          paddingVertical: 10,
+          paddingHorizontal: 20,
+          }}>
+          <View style={{marginBottom: 20}}>
+           <Titulo>Fallas</Titulo>
+         </View>
+         <ScrollView>
+          {items}
+         </ScrollView>
+         <View style={{marginLeft: 10, marginBottom: 20, alignItems: 'flex-end' }}>
+          <BotonListo 
+            onPress={() => this.props.navigation.navigate('Instruccion')}
+            ></BotonListo>
+          </View>
         </View>
       </View>
-    </View>
     );
   }
 

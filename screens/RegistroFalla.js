@@ -78,13 +78,10 @@ export default class RegistroFalla extends React.Component {
         <View style={{
           marginLeft: 10, 
           marginBottom: 20, 
-          justifyContent: 'space-evenly',
+          justifyContent: 'flex-end' ,
           flexDirection: 'row',
           alignItems: 'flex-end' 
         }}>
-          <BotonCamara 
-          onPress={() => this.props.navigation.goBack()}>
-          </BotonCamara>
           <BotonListo 
           onPress={() => this.props.navigation.goBack()}>
           </BotonListo>

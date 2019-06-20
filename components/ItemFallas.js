@@ -33,10 +33,12 @@ export default class ItemFallas extends React.Component {
     		borderBottomRightRadius: 10,
     		}}>
     		<View style={{flex: 1,
-    			flexDirection: 'row',
-    			justifyContent: 'flex-start' ,
-    			padding: 5}}>
-    			<CheckBox></CheckBox>
+			flexDirection: 'row',
+			justifyContent: 'flex-start' ,
+			padding: 5}}>
+    			<CheckBox value={this.props.value}
+                onChange={()=>this.props.onChange()}>
+                </CheckBox>
     			<Descripcion style={{marginTop: 0, marginLeft: 0, marginRight: 20}}>
     				{this.props.children}
     			</Descripcion>
@@ -66,7 +68,7 @@ export default class ItemFallas extends React.Component {
     					borderRadius: 4,
     					}}>
     					<Icon.FontAwesome
-    						name="info"
+    						name="wrench"
     						size={22}
     						color={Colors.grisOscuro}
     						/>
@@ -83,8 +85,8 @@ export default class ItemFallas extends React.Component {
     						alignItems: 'center', 
     						borderRadius: 4,
     						}}>
-    						<Icon.FontAwesome
-    							name="wpforms"
+    						<Icon.Ionicons
+    							name="ios-list-box"
     							size={22}
     							color={Colors.grisOscuro}
     							/>
