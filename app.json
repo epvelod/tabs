@@ -23,7 +23,11 @@
       "**/*"
     ],
     "ios": {
+      "supportsTablet": true,
       "supportsTablet": true
+    },
+    "android": {
+      "permissions": ["CAMERA"]
     },
     "description": ""
   }

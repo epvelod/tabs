@@ -30,7 +30,7 @@ export default class BotonCamara extends React.Component {
        width:60,
        height:60,
        backgroundColor:'#66cdaa',
-       borderRadius:30,
+       borderRadius:30
        }}
 
        onPress={() => this.props.onPress()}
