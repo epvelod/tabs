@@ -21,12 +21,16 @@ export default class ItemComponente extends React.Component {
   render() {
     return (
     	<View style={{
+      flex: 1,
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'space-between' ,
+      alignItems: 'stretch' ,
       marginBottom: 10
       }}>
-      	<View style={{ 
-          flexDirection: 'row'}}>
+      	<View style={{
+          flex: 1, 
+          flexDirection: 'row'
+          }}>
           		<CheckBox value={this.props.value}
               onChange={()=>this.props.onChange()}></CheckBox>
           		<Descripcion style={{marginTop: 5}}>
@@ -34,13 +38,13 @@ export default class ItemComponente extends React.Component {
           		</Descripcion>
       	</View>
         <View style={{
-          width: 80,
+          width: 40,
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'stretch',
           }}>
           <View style={{
-            width: 80,
+            width: 40,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center', 
