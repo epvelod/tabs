@@ -132,13 +132,25 @@ export default class Instruccion extends React.Component {
       if(respuestas[i].id_vehiculo === traza.id_vehiculo && respuestas[i].id_normatividad === traza.id_normatividad ) {
         for (var j = 0; j < respuestas[i].instrucciones.length; j++) {
           if(respuestas[i].instrucciones[j].id_ensamble === traza.instruccion.ensamble.id_ensamble ) {
-            for (var k = 0; k < componentes.length; k++) {
-              comRes.push({
-                id_componente : componentes[k].id_componente,
-                fallas:[]
-              });
-            }
 
+            /*Interseccion*/
+            console.log('componentes');
+            console.log(componentes);
+            console.log('respuestas[i].instrucciones[j].componentes');
+            console.log(respuestas[i].instrucciones[j].componentes);
+            comRes = respuestas[i].instrucciones[j].componentes.filter(it=>componentes.filter(e=>e.id_componente==it.id_componente)!=false);
+
+            console.log('comRes');
+            console.log(comRes);
+
+            for (var k = 0; k < componentes.length; k++) {
+              if(comRes.filter(e=>e.id_componente==componentes[k].id_componente)==false) {
+                comRes.push({
+                  id_componente : componentes[k].id_componente,
+                  fallas:[]
+                });
+              }
+            }
             respuestas[i].instrucciones[j].componentes = comRes;
 
             await FileSystem.writeAsStringAsync(
