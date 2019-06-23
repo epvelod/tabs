@@ -65,6 +65,8 @@ export default class Instrucciones extends React.Component {
     const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingTypes.UTF8 });
     const obj = JSON.parse(content)||[];
     let respuesta;
+
+    /*Buscamos si ya existe el vehicolo en las respuestas*/
     let containAnswer = false;
 
     for (var i = 0; i < obj.length; i++) {
@@ -72,18 +74,22 @@ export default class Instrucciones extends React.Component {
         respuesta = obj[i];
         respuesta.instrucciones = respuesta.instrucciones.length > 0 ? respuesta.instrucciones: 
           [{
-            id_ensamble:formulario.instrucciones[0].id_ensamble
+            id_ensamble:formulario.instrucciones[0].id_ensamble,
+            componentes:[]
           }];
         containAnswer = true;
+        break;
       }
     }
 
+    /*Primer entrada*/
     if(!containAnswer) {
       respuesta = {
         id_vehiculo: traza.id_vehiculo,
         id_normatividad: traza.id_normatividad,
         instrucciones: [{
-          id_ensamble:formulario.instrucciones[0].id_ensamble
+          id_ensamble:formulario.instrucciones[0].id_ensamble,
+          componentes:[]
         }]
       };
       
@@ -114,8 +120,6 @@ export default class Instrucciones extends React.Component {
     this.state.traza.instruccion.ensamble = {};
     this.state.traza.instruccion.ensamble.id_ensamble = ensamble.id_ensamble;
 
-    console.log('ensamble');
-    console.log(ensamble);
 
     this.props.navigation.navigate('Instruccion', 
     {

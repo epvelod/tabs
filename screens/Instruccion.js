@@ -136,6 +136,7 @@ export default class Instruccion extends React.Component {
           if(respuestas[i].instrucciones[j].id_ensamble === traza.instruccion.ensamble.id_ensamble ) {
 
             /*Interseccion*/
+            console.log(respuestas[i].instrucciones[j]);
             comRes = respuestas[i].instrucciones[j].componentes.filter(it=>componentes.filter(e=>e.id_componente==it.id_componente)!=false);
 
             for (var k = 0; k < componentes.length; k++) {
