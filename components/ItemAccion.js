@@ -36,7 +36,8 @@ export default class ItemAccion extends React.Component {
         			flexDirection: 'row',
         			justifyContent: 'flex-start' ,
         			padding: 5}}>
-        			<CheckBox></CheckBox>
+        			<CheckBox value={this.props.value}
+                onChange={()=>this.props.onChange()}></CheckBox>
         			<Descripcion style={{marginTop: 5, marginLeft: 10}}>
         				{this.props.children}
         			</Descripcion>

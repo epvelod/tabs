@@ -1,17 +1,20 @@
 import React from 'react';
 import {
   Button,
+  Image,
+  Modal,
   Platform,
   ScrollView,
   Text,
   View,
 } from 'react-native';
 
-import { AppLoading, FileSystem } from 'expo';
+import { AppLoading, FileSystem, Camera, Permissions } from 'expo';
 
 import { MonoText, Titulo, Descripcion } from '../components/StyledText';
 import BotonListo from '../components/BotonListo';
 import BotonCamara from '../components/BotonCamara';
+import BotonIcon from '../components/BotonIcon';
 import ItemComponente from '../components/ItemComponente';
 
 import Colors from '../constants/Colors';
@@ -25,11 +28,16 @@ export default class Instruccion extends React.Component {
   };
   state={
     isLoadingComplete: false,
+    modalVisible: false,
+    modalVisibleImg: false,
     /*data*/
     selecteds:[],
     traza: {},
     respuestas: {},
     data: {componentes:[]},
+    /*camara*/
+    hasCameraPermission: null,
+    photoFile:undefined
   }
 
   constructor(props){
@@ -49,6 +57,7 @@ export default class Instruccion extends React.Component {
     
     const selecteds = await this.pintaComponente(respuestas,traza,data);
 
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
 
     this.setState({ 
       ...this.state, 
@@ -57,6 +66,7 @@ export default class Instruccion extends React.Component {
       respuestas: respuestas,
       data: data,
       selecteds:selecteds,
+      hasCameraPermission: status === 'granted'
     });
   };
   _handleLoadingError = error => {
@@ -124,13 +134,18 @@ export default class Instruccion extends React.Component {
       if(respuestas[i].id_vehiculo === traza.id_vehiculo && respuestas[i].id_normatividad === traza.id_normatividad ) {
         for (var j = 0; j < respuestas[i].instrucciones.length; j++) {
           if(respuestas[i].instrucciones[j].id_ensamble === traza.instruccion.ensamble.id_ensamble ) {
-            for (var k = 0; k < componentes.length; k++) {
-              comRes.push({
-                id_componente : componentes[k].id_componente,
-                fallas:[]
-              });
-            }
 
+            /*Interseccion*/
+            comRes = respuestas[i].instrucciones[j].componentes.filter(it=>componentes.filter(e=>e.id_componente==it.id_componente)!=false);
+
+            for (var k = 0; k < componentes.length; k++) {
+              if(comRes.filter(e=>e.id_componente==componentes[k].id_componente)==false) {
+                comRes.push({
+                  id_componente : componentes[k].id_componente,
+                  fallas:[]
+                });
+              }
+            }
             respuestas[i].instrucciones[j].componentes = comRes;
 
             await FileSystem.writeAsStringAsync(
@@ -183,8 +198,21 @@ export default class Instruccion extends React.Component {
       }
     }
   }
+  _onClose() {
+
+  }
+  async _snap() {
+    let photo = undefined;
+    if (this.camera) {
+      photo = await this.camera.takePictureAsync();
+    }
+    this.setState({...this.state, modalVisible: false, photoFile: photo})
+  };
 
   render() {
+    let camaraView;
+    let foto;
+    let iconFoto;
     /*Cargando...*/
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
@@ -193,6 +221,44 @@ export default class Instruccion extends React.Component {
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading}
         />
+      );
+    }
+    /*Camara*/
+    if (this.state.hasCameraPermission) {
+      camaraView = (
+        <View style={{height: '100%',width: '100%'}}>
+          <Camera style={{height: '100%',width: '100%'}} 
+          type={Camera.Constants.Type.back} 
+          ref={ref => { this.camera = ref; }} >
+            <View style={{flex: 1,alignItems: 'center', justifyContent: 'flex-end' ,margin: 50 }}>
+              <BotonCamara 
+              onPress={() => {this._snap()}}>
+              </BotonCamara>
+            </View>
+          </Camera>
+        </View>
+      );
+    } 
+    /*Fotos*/
+    if(this.state.photoFile) {
+      foto =(
+        <View style={{
+          alignItems: 'center' ,
+        }}>
+          <Image
+            style={{
+              width: '85%', 
+              height: '85%'}}
+            source={{uri: this.state.photoFile.uri}}
+            resizeMode="contain"
+          />
+        </View>
+      );
+      iconFoto = (
+        <BotonIcon
+        icon="picture-o" 
+        onPress={() => this.setState({...this.state, modalVisibleImg: true})}>
+        </BotonIcon>
       );
     }
     /*build itmes*/
@@ -238,13 +304,45 @@ export default class Instruccion extends React.Component {
           alignItems: 'flex-end' 
         }}>
           <BotonCamara 
-          onPress={() => this.props.navigation.goBack()}>
+          onPress={() => this.setState({...this.state, modalVisible: true})}>
           </BotonCamara>
+          {iconFoto}
           <BotonListo 
           onPress={() => this._terminar() }>
           </BotonListo>
         </View>
       </View>
+
+
+      <Modal
+        animationType="fade"
+        transparent={false}
+        visible={this.state.modalVisible}
+        onRequestClose={()=>this._onClose()}>
+        {camaraView}
+      </Modal>
+
+      <Modal
+        animationType="fade"
+        transparent={false}
+        visible={this.state.modalVisibleImg}
+        onRequestClose={()=>this._onClose()}>
+        {foto}
+        <View style={{
+          marginLeft: 10, 
+          marginBottom: 20, 
+          justifyContent: 'space-evenly',
+          flexDirection: 'row',
+          alignItems: 'flex-end' 
+        }}>
+          <BotonCamara 
+          onPress={() => this.setState({...this.state, modalVisibleImg: false, modalVisible: true})}>
+          </BotonCamara>
+          <BotonListo 
+          onPress={() => this.setState({...this.state, modalVisibleImg: false})}>
+          </BotonListo>
+        </View>
+      </Modal>
     </View>
     );
   }
