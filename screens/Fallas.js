@@ -53,7 +53,9 @@ export default class Fallas extends React.Component {
 
     const vihiculosA = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo && e.id_normatividad === traza.id_normatividad )[0];
     const instruccionesA = vihiculosA.instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0];
-    const fallasA = instruccionesA.componentes.filter(e=>e.id_componente===traza.instruccion.ensamble.componente.id_componente)[0].fallas||[];
+
+    const compA = instruccionesA.componentes.filter(e=>e.id_componente===traza.instruccion.ensamble.componente.id_componente);
+    const fallasA = (compA.length>0? (compA[0].fallas||[]) : []);
 
     console.log('fallas');
     console.log(fallas);
@@ -110,6 +112,8 @@ export default class Fallas extends React.Component {
       }
     }
 
+    console.log('componentes');
+    console.log(componentes);
     componentes.filter(e=>e.id_componente===traza.instruccion.ensamble.componente.id_componente)[0].fallas = falRes;
     console.log('falRes');
     console.log(falRes);
