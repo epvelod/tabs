@@ -14,7 +14,7 @@ import { AppLoading, FileSystem, Camera, Permissions } from 'expo';
 import { MonoText, Titulo, Descripcion } from '../components/StyledText';
 import BotonListo from '../components/BotonListo';
 import BotonCamara from '../components/BotonCamara';
-import BotonIcon from '../components/BotonIcon';
+//import BotonIcon from '../components/BotonIcon';
 import ItemComponente from '../components/ItemComponente';
 
 import Colors from '../constants/Colors';
@@ -254,12 +254,12 @@ export default class Instruccion extends React.Component {
           />
         </View>
       );
-      iconFoto = (
-        <BotonIcon
-        icon="picture-o" 
-        onPress={() => this.setState({...this.state, modalVisibleImg: true})}>
-        </BotonIcon>
-      );
+      // iconFoto = (
+      //   <BotonIcons
+      //   icon="picture-o" 
+      //   onPress={() => this.setState({...this.state, modalVisibleImg: true})}>
+      //   </BotonIcon>
+      // );
     }
     /*build itmes*/
     const items = this.state.data.componentes.map(({id_componente, descripcion, fallas}, index) => {
