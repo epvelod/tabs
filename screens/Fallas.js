@@ -114,6 +114,9 @@ export default class Fallas extends React.Component {
 
     console.log('componentes');
     console.log(componentes);
+    /*Si el comonente no esta chequeado el filtro de componentes es nul
+    por lo que se debe apilar en las espuestas ;)
+    */
     componentes.filter(e=>e.id_componente===traza.instruccion.ensamble.componente.id_componente)[0].fallas = falRes;
     console.log('falRes');
     console.log(falRes);
