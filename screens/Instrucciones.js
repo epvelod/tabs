@@ -65,6 +65,8 @@ export default class Instrucciones extends React.Component {
 
     const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingTypes.UTF8 });
     const obj = JSON.parse(content)||[];
+    console.log('respuesta');
+    console.log(obj);
     let respuesta;
 
     /*Buscamos si ya existe el vehicolo en las respuestas*/

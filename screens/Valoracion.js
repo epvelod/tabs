@@ -39,7 +39,7 @@ export default class RegistroFalla extends React.Component {
     modalVisible:false,
     modalVisibleImg:false,
     /*Datos*/
-		selectedIndex: 0,
+		selectedIndex: -1,
 		fechaAgendacion: undefined,
 		valor:'',
     /*Camara*/
@@ -57,6 +57,7 @@ export default class RegistroFalla extends React.Component {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     const {fechaAgendacion,selectedIndex,valor,fotoFile, traza,respuestas,falla} = await  this._loadDBInformation();
 
+    console.log(' componentWillMount selectedIndex: '+selectedIndex);
     this.setState({...this.state,  
       selectedIndex: selectedIndex,
       fechaAgendacion: fechaAgendacion,
@@ -85,12 +86,12 @@ export default class RegistroFalla extends React.Component {
 
     let fallaA = fallasA.filter(e=>e.id_falla===traza.instruccion.ensamble.componente.falla.id_falla);
 
-    console.log('RF: fallaA ');
+    console.log('V: fallaA ');
     console.log(fallaA);
-
-    const {fechaAgendacion,selectedIndex,valor,fotoFile} =this._drawActions(fallaA);
-
     const falla = this._safeData(fallaA);
+
+    const {fechaAgendacion,selectedIndex,valor,fotoFile} =this._drawActions(falla);
+
 
     return {fechaAgendacion,selectedIndex,valor,fotoFile, traza,respuestas,falla};
   }
@@ -105,6 +106,7 @@ export default class RegistroFalla extends React.Component {
         ],
         {cancelable: false},
       );
+      return undefined;
     }
     return fallaA[0];
   }
@@ -116,11 +118,11 @@ export default class RegistroFalla extends React.Component {
     let fotoFile;
 
     if(falla.fechaReprogramacion) {
-      fechaAgendacion = new Date(1560825505454);
-      selectedIndex = 2;
+      fechaAgendacion = new Date(falla.fechaReprogramacion);
+      selectedIndex = 1;
     } else if(falla.valor) {
       valor = falla.valor;
-      selectedIndex = 1;
+      selectedIndex = 2;
     } else {
       selectedIndex = 0;
     }
@@ -128,16 +130,23 @@ export default class RegistroFalla extends React.Component {
     if (falla.fotoFile) {
       fotoFile = falla.fotoFile;
     }
+
+    console.log('selectedIndex: '+selectedIndex);
     return {fechaAgendacion,selectedIndex,valor,fotoFile}
   }
 
   /*View events*/
   async _updateIndex(selectedIndex) {
 		let fecha;
+    let valor = this.state.valor;
 		if(selectedIndex===1) {
 			fecha = await this._selectDate();
-		}
-	  this.setState({...this.state, selectedIndex:selectedIndex,fechaAgendacion:fecha});
+      fecha = fecha.getTime();
+      valor = '';
+		} else  if(selectedIndex===2) {
+      fecha = undefined
+    }
+	  this.setState({...this.state, selectedIndex:selectedIndex,fechaAgendacion:fecha,valor:valor});
 	}
 	
   async _selectDate(){
@@ -154,14 +163,14 @@ export default class RegistroFalla extends React.Component {
 	}
   
   async _snap() {
-    let photo = undefined;
+    let photo = {uri:undefined};
     console.log('snap');
     if (this.camera) {
       photo = await this.camera.takePictureAsync();
       console.log('photo');
       console.log(photo);
     }
-    this.setState({...this.state, modalVisible: false, photoFile: photo})
+    this.setState({...this.state, modalVisible: false, photoFile: photo.uri})
   };
 
   _onClose(index) {
@@ -170,6 +179,25 @@ export default class RegistroFalla extends React.Component {
     } else {
       this.setState({...this.state, modalVisibleImg: false})
     }
+  }
+
+  async _save() {
+    const falla = this.state.falla;
+
+    falla.fechaReprogramacion = this.state.fechaAgendacion;
+    falla.valor = this.state.valor;
+    falla.fotoFile = this.state.photoFile;
+    falla.reparar = (this.selectedIndex < 1);
+
+    console.log('V this.state.respuestas');
+    console.log(this.state.respuestas);
+
+    await FileSystem.writeAsStringAsync(`${this.folderPath}/respuestas.json`, 
+      JSON.stringify(this.state.respuestas), 
+      { encoding: FileSystem.EncodingTypes.UTF8 });
+
+    this.props.navigation.goBack();
+
   }
 
   render() {
@@ -184,7 +212,7 @@ export default class RegistroFalla extends React.Component {
     
     /*Valores especiales*/
     if(this.state.selectedIndex===1) {
-    	const f = this.state.fechaAgendacion;
+    	const f = this.state.fechaAgendacion ?new Date(this.state.fechaAgendacion): new Date();
 			const textFecha = f.getDate() + "/"+ f.getMonth()+ "/" +f.getFullYear();
     	extra = (
     		<View style={{marginBottom: 20}}>
@@ -243,7 +271,7 @@ export default class RegistroFalla extends React.Component {
             style={{
               width: '85%', 
               height: '85%'}}
-            source={{uri: this.state.photoFile.uri}}
+            source={{uri: this.state.photoFile}}
             resizeMode="contain"
           />
         </View>
@@ -296,7 +324,7 @@ export default class RegistroFalla extends React.Component {
           </BotonCamara>
           {iconFoto}
           <BotonListo 
-          onPress={() => this.props.navigation.goBack()}>
+          onPress={() => this._save()}>
           </BotonListo>
         </View>
     	</View>

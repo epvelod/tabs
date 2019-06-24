@@ -136,12 +136,7 @@ export default class Instruccion extends React.Component {
           if(respuestas[i].instrucciones[j].id_ensamble === traza.instruccion.ensamble.id_ensamble ) {
 
             /*Interseccion*/
-            console.log('respuestas[i].instrucciones[j]');
-            console.log(respuestas[i].instrucciones[j]);
-            console.log('respuestas[i].instrucciones[j].componentes');
-            console.log(respuestas[i].instrucciones[j].componentes);
             comRes = respuestas[i].instrucciones[j].componentes.filter(it=>componentes.filter(e=>e.id_componente==it.id_componente)!=false);
-
             for (var k = 0; k < componentes.length; k++) {
               if(comRes.filter(e=>e.id_componente==componentes[k].id_componente)==false) {
                 comRes.push({
@@ -182,8 +177,11 @@ export default class Instruccion extends React.Component {
         for (var j = 0; j < respuestas[i].instrucciones.length; j++) {
           if(respuestas[i].instrucciones[j].id_ensamble === traza.instruccion.ensamble.id_ensamble ) {
 
-
+            console.log('In respuesta');
+            console.log(respuestas[i]);
             const inst = formularios.filter((e) => e.id_normatividad === traza.id_normatividad)[0].instrucciones;
+            console.log('inst');
+            console.log(inst);
 
             if((j + 1)< inst.length && (j+1) === respuestas[i].instrucciones.length) {
               respuestas[i].instrucciones.push({

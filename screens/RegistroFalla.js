@@ -57,13 +57,11 @@ export default class RegistroFalla extends React.Component {
     const fallasA = (compA.length>0? (compA[0].fallas||[]) : []);
 
     let fallaA = fallasA.filter(e=>e.id_falla===traza.instruccion.ensamble.componente.falla.id_falla);
-    console.log('RF: fallaA ');
-    console.log(fallaA);
     fallaA = this._safeData(fallaA);
+    if(!fallaA)
+      return;
 
     const selecteds = this._drawActions(fallaA);
-    console.log('selecteds');
-    console.log(selecteds);
     this.setState({
       selecteds: selecteds,
       traza: traza,
@@ -83,6 +81,7 @@ export default class RegistroFalla extends React.Component {
         ],
         {cancelable: false},
       );
+      return undefined;
     }
     return fallaA[0];
   }
@@ -119,8 +118,6 @@ export default class RegistroFalla extends React.Component {
     const actRes = selectedElem.map((e,index)=>e.id_accion_falla);
 
     fallas.filter(e=>e.id_falla===traza.instruccion.ensamble.componente.falla.id_falla)[0].acciones = actRes;
-    console.log('RF fallas');
-    console.log(fallas);
   }
 
   render() {
