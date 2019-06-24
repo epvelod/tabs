@@ -58,7 +58,7 @@ export default class ItemFallas extends React.Component {
     			alignItems: 'center', 
     			}}>
 
-    			<TouchableWithoutFeedback onPress={() => this.props.onInfo()} underlayColor="white">
+    			<TouchableOpacity onPress={() => this.props.onInfo()} underlayColor="white">
     				<View style={{
     					height: 36,
     					width: 36,
@@ -74,9 +74,9 @@ export default class ItemFallas extends React.Component {
     						/>
 
     					</View>
-    				</TouchableWithoutFeedback>
+    				</TouchableOpacity>
 
-    				<TouchableWithoutFeedback onPress={() => this.props.onPress()} underlayColor="white">
+    				<TouchableOpacity onPress={() => this.props.onPress()} underlayColor="white">
     					<View style={{
     						height: 36,
     						width: 36,
@@ -91,7 +91,7 @@ export default class ItemFallas extends React.Component {
     							color={Colors.grisOscuro}
     							/>
     						</View>
-    					</TouchableWithoutFeedback>
+    					</TouchableOpacity>
     				</View>
     			</View>
     		</View>

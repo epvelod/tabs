@@ -59,8 +59,9 @@ export default class Fallas extends React.Component {
 
     console.log('fallas');
     console.log(fallas);
-    console.log('listaFallas');
-    console.log(listaFallas);
+    console.log('fallasA');
+    console.log(fallasA);
+
     const falla = fallas.filter((e) => {
       for (var i = 0; i < listaFallas.length; i++) {
         if(listaFallas[i]===e.id_falla)
@@ -68,6 +69,7 @@ export default class Fallas extends React.Component {
       }
     });
 
+    selecteds = this._drawActions(falla,fallasA);
 
     this.setState({
       ...this.state,
@@ -75,23 +77,36 @@ export default class Fallas extends React.Component {
       respuestas: respuestas,
       instruccionesA: instruccionesA,
       fallasAns:fallasA,
-      fallas: falla
+      fallas: falla,
+      selecteds:selecteds
     });
-  }
-
-  _readAns() {
-
   }
 
   async _selectedChange(index,id_falla) {
     this.state.selecteds[index] = !this.state.selecteds[index];
     this._writeChanges();
 
+
+    console.log('this.state.respuestas');
+    console.log(this.state.respuestas);
+
     await FileSystem.writeAsStringAsync(`${this.folderPath}/respuestas.json`, 
       JSON.stringify(this.state.respuestas), 
       { encoding: FileSystem.EncodingTypes.UTF8 });
 
     this.setState({...this.state, selecteds: this.state.selecteds});
+  }
+
+  _drawActions(listaFallas,listaRespuestas) {
+    const selecteds = [];
+    if(!listaRespuestas||listaRespuestas.length<1) {
+      return selecteds;
+    }
+    for (var i = 0; i < listaFallas.length; i++) {
+      const elem = listaRespuestas.map(e=>e.id_falla === listaFallas[i].id_falla);
+      selecteds.push((!(!elem))&&(elem.length>0));
+    }
+    return selecteds;
   }
 
   _writeChanges() {
@@ -121,6 +136,24 @@ export default class Fallas extends React.Component {
     console.log('falRes');
     console.log(falRes);
   }
+  _onPress(id_falla) {
+    this.state.traza.instruccion.ensamble.componente.falla = {};
+    this.state.traza.instruccion.ensamble.componente.falla.id_falla = id_falla;
+
+    this.props.navigation.navigate('RegistroFalla', {
+      id_falla:id_falla ,
+      traza: this.state.traza
+    });
+  }
+  _onInfo(id_falla) {
+    this.state.traza.instruccion.ensamble.componente.falla = {};
+    this.state.traza.instruccion.ensamble.componente.falla.id_falla = id_falla;
+
+    this.props.navigation.navigate('Valoracion', {
+      id_falla:id_falla ,
+      traza: this.state.traza
+    });
+  }
   render() {
     const { navigation } = this.props;
     const listaFallas = navigation.getParam('fallas', []);
@@ -131,8 +164,8 @@ export default class Fallas extends React.Component {
     const items = falla.map(({id_falla, descripcion}, index) => 
         <ItemFallas 
         key={index} 
-        onPress={() => this.props.navigation.navigate('RegistroFalla', {id_falla:id_falla})}
-        onInfo={() => this.props.navigation.navigate('Valoracion', {id_falla:id_falla})}
+        onPress={() => this._onPress(id_falla)}
+        onInfo={() => this._onInfo(id_falla)}
         value={this.state.selecteds[index]}
         onChange={()=>this._selectedChange(index, id_falla)}>
         {descripcion}

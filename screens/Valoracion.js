@@ -30,6 +30,7 @@ import Colors from '../constants/Colors';
 import { Icon } from 'expo';
 
 export default class RegistroFalla extends React.Component {
+  folderPath = `${FileSystem.documentDirectory}formas`;
   static navigationOptions = {
     header: null,
   };
@@ -39,28 +40,107 @@ export default class RegistroFalla extends React.Component {
     modalVisibleImg:false,
     /*Datos*/
 		selectedIndex: 0,
-		fechaAgendacion: new Date(),
+		fechaAgendacion: undefined,
 		valor:'',
     /*Camara*/
     hasCameraPermission: null,
-    photoFile:undefined
+    photoFile:undefined,
+    /*datos DB*/
+    traza:{},
+    respuestas:[],
+    falla:{}
 	}
   constructor(props){
     super(props);
   }
   async componentWillMount() {
-    //Getting Permission result from app details.
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({...this.state,  hasCameraPermission: status === 'granted' });
+    const {fechaAgendacion,selectedIndex,valor,fotoFile, traza,respuestas,falla} = await  this._loadDBInformation();
+
+    this.setState({...this.state,  
+      selectedIndex: selectedIndex,
+      fechaAgendacion: fechaAgendacion,
+      valor: valor,
+      photoFile: fotoFile,
+      traza: traza,
+      respuestas: respuestas,
+      falla: falla,
+      hasCameraPermission: status === 'granted' 
+    });
   }
-	async _updateIndex(selectedIndex) {
+	/*data events*/
+  async _loadDBInformation() {
+    const { navigation } = this.props;
+    const id_falla = navigation.getParam('id_falla', -1);
+    const traza = navigation.getParam('traza', {});
+
+    const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingTypes.UTF8 });
+    const respuestas = JSON.parse(content)||[];
+
+    const vihiculosA = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo && e.id_normatividad === traza.id_normatividad )[0];
+    const instruccionesA = vihiculosA.instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0];
+
+    const compA = instruccionesA.componentes.filter(e=>e.id_componente===traza.instruccion.ensamble.componente.id_componente);
+    const fallasA = (compA.length>0? (compA[0].fallas||[]) : []);
+
+    let fallaA = fallasA.filter(e=>e.id_falla===traza.instruccion.ensamble.componente.falla.id_falla);
+
+    console.log('RF: fallaA ');
+    console.log(fallaA);
+
+    const {fechaAgendacion,selectedIndex,valor,fotoFile} =this._drawActions(fallaA);
+
+    const falla = this._safeData(fallaA);
+
+    return {fechaAgendacion,selectedIndex,valor,fotoFile, traza,respuestas,falla};
+  }
+
+  _safeData(fallaA) {
+    if(!fallaA || fallaA.length < 1 ) {
+      Alert.alert(
+        'No se ha registrado la falla',
+        '',
+        [
+          {text: 'OK', onPress: () => this.props.navigation.goBack()},
+        ],
+        {cancelable: false},
+      );
+    }
+    return fallaA[0];
+  }
+
+  _drawActions(falla) {
+    let fechaAgendacion;
+    let selectedIndex;
+    let valor;
+    let fotoFile;
+
+    if(falla.fechaReprogramacion) {
+      fechaAgendacion = new Date(1560825505454);
+      selectedIndex = 2;
+    } else if(falla.valor) {
+      valor = falla.valor;
+      selectedIndex = 1;
+    } else {
+      selectedIndex = 0;
+    }
+
+    if (falla.fotoFile) {
+      fotoFile = falla.fotoFile;
+    }
+    return {fechaAgendacion,selectedIndex,valor,fotoFile}
+  }
+
+  /*View events*/
+  async _updateIndex(selectedIndex) {
 		let fecha;
 		if(selectedIndex===1) {
 			fecha = await this._selectDate();
 		}
 	  this.setState({...this.state, selectedIndex:selectedIndex,fechaAgendacion:fecha});
 	}
-	async _selectDate(){
+	
+  async _selectDate(){
 		try {
 			const {action, year, month, day} = await DatePickerAndroid.open({
 				date: new Date(),
@@ -72,6 +152,7 @@ export default class RegistroFalla extends React.Component {
 			console.warn('Cannot open date picker', message);
 		}
 	}
+  
   async _snap() {
     let photo = undefined;
     console.log('snap');

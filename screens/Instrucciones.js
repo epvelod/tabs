@@ -41,6 +41,7 @@ export default class Instrucciones extends React.Component {
     const didBlurSubscription = this.props.navigation.addListener(
       'willFocus',
       payload => {
+        console.log("foco");
         this.setState({
           ...this.state,
           isLoadingComplete: false
@@ -130,6 +131,7 @@ export default class Instrucciones extends React.Component {
 
   render() {
     /*Cargando...*/
+    console.log(!this.state.isLoadingComplete && !this.props.skipLoadingScreen);
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
