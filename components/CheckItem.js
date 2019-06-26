@@ -17,6 +17,21 @@ import { MonoText, Titulo, SubTitulo, Descripcion, Dato } from '../components/St
 
 
 export default class CheckItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value:props.value,
+      selected: props.checked,
+    };
+  }
+  _onChange() {
+    this.props.onChange(this.state.value, !this.state.selected);
+
+    this.setState({
+      ...this.state,
+      selected: !this.state.selected
+    });
+  }
 
   render() {
 
@@ -24,7 +39,9 @@ export default class CheckItem extends React.Component {
 
   					<TouchableNativeFeedback onPress={() => this.props.onPress()}>
 						<View style={{ flexDirection: 'row' }}>
-			        		<CheckBox></CheckBox>
+			        		<CheckBox value={this.state.selected}
+                  onChange={()=>this._onChange()}>
+                  </CheckBox>
 			        		<Descripcion style={{marginTop: 5,color: Colors.grisOscuro, fontWeight: 'bold'}}>
 			        		{this.props.children}
 			        		</Descripcion>
