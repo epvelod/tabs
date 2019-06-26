@@ -126,7 +126,8 @@ export default class Instruccion extends React.Component {
 
   }
   async registrarComponente(componentes) {
-    const respuestas = this.state.respuestas;
+    const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingTypes.UTF8 });
+    const respuestas = JSON.parse(content)||[];
     const traza = this.state.traza;
 
     let comRes=[];
