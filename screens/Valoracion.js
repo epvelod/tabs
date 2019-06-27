@@ -22,7 +22,7 @@ import Card from '../components/Card';
 import ItemAccion from '../components/ItemAccion';
 import BotonListo from '../components/BotonListo';
 import BotonCamara from '../components/BotonCamara';
-//import BotonIcon from '../components/BotonIcon';
+import BotonIcon from '../components/BotonIcon';
 import ButtonGroup from '../components/ButtonGroup';
 
 import Colors from '../constants/Colors';
@@ -167,12 +167,12 @@ export default class RegistroFalla extends React.Component {
           />
         </View>
       );
-      // iconFoto = (
-      //   <BotonIcon
-      //   icon="picture-o" 
-      //   onPress={() => this.setState({...this.state, modalVisibleImg: true})}>
-      //   </BotonIcon>
-      // );
+      iconFoto = (
+        <BotonIcon
+        icon="picture-o" 
+        onPress={() => this.setState({...this.state, modalVisibleImg: true})}>
+        </BotonIcon>
+      );
     }
 
     return (
