@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
   TouchableHighlight,
   View,
 } from 'react-native';
@@ -46,7 +46,9 @@ export default class HomeScreen extends React.Component {
     /*View*/
     isLoadingComplete: false,
     modalVisible: false,
-    selectedSerch: ['cliente','ubicación'],
+    selectedSerch: ['cliente','ubicacion'],
+    selectedStatus: [],
+    selectedLoads: [],
     vehiculos: vehiculos,
   };
 
@@ -54,6 +56,7 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
+  /*                 Eventos          **/
   /*Loading method*/
   _loadResourcesAsync = async () => {
     const props =  await FileSystem.getInfoAsync(`${this.folderPath}`);
@@ -76,27 +79,70 @@ export default class HomeScreen extends React.Component {
     this.setState({ ...this.state, isLoadingComplete: true });
   };
 
-  toggleModal = () => {
+  _toggleModal = () => {
     this.setState({ modalVisible: !this.state.modalVisible });
   };
   _onClose = () => {
-   
+    this.setState({
+      ...this.state,
+      modalVisible: false,
+    });
   };
-
-  filtrar = ({text}) => {
+  _filtrar = ({text}) => {
     const vehiculosF = vehiculos.filter(({ normatividad_vehiculo_persona }, index) => {
-        if(this.state.selectedSerch.includes('cliente') && this.state.selectedSerch.includes('ubicación')) {
-          return normatividad_vehiculo_persona.vehiculo.codigo_vehiculo.includes(text) || normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text);
-        }
-        if(this.state.selectedSerch.includes('cliente')) {
-          return normatividad_vehiculo_persona.vehiculo.codigo_vehiculo.includes(text);
-        }
-        if(this.state.selectedSerch.includes('ubicación')) {
-          return normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text);
-        }
-      }
-    );
+      const apply = false;
+
+      apply = apply || this.state.selectedSerch.includes('cliente') ? normatividad_vehiculo_persona.vehiculo.codigo_vehiculo.includes(text) : true;
+      apply = apply || this.state.selectedSerch.includes('ubicacion') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : true;
+
+      return apply;
+    });
     this.setState({...this.state,vehiculos:vehiculosF});
+  }
+  _onUbicationFilterChange(valueFilter, isSelected) {
+    if(isSelected && !this.state.selectedSerch.includes(valueFilter)) {
+      this.state.selectedSerch.push(valueFilter);
+
+      this.setState({
+        ...this.state,
+        selectedSerch: this.state.selectedSerch
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        selectedSerch: this.state.selectedSerch.filter(e=> e!= valueFilter)
+      });
+    }
+  }
+  _onStatusFilterChange(valueFilter, isSelected) {
+    if(isSelected && !this.state.selectedStatus.includes(valueFilter)) {
+      this.state.selectedStatus.push(valueFilter);
+
+      this.setState({
+        ...this.state,
+        selectedStatus: this.state.selectedStatus
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        selectedStatus: this.state.selectedStatus.filter(e=> e!= valueFilter)
+      });
+    }
+  }
+  _onLoadFilterChange(valueFilter, isSelected) {
+    if(isSelected && !this.state.selectedLoads.includes(valueFilter)) {
+      this.state.selectedLoads.push(valueFilter);
+
+      this.setState({
+        ...this.state,
+        selectedLoads: this.state.selectedLoads
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        selectedLoads: this.state.selectedLoads.filter(e=> e!= valueFilter)
+      });
+    }
   }
 
   render() {
@@ -187,9 +233,9 @@ export default class HomeScreen extends React.Component {
                     }} 
                     placeholder={placeholder}
                     placeholderTextColor="#808080" 
-                    onChangeText={(text) => this.filtrar({text})} />
-                  <TouchableWithoutFeedback
-                    onPress={this.toggleModal}>
+                    onChangeText={(text) => this._filtrar({text})} />
+                  <TouchableOpacity
+                    onPress={this._toggleModal}>
                     <Icon.FontAwesome
                       name="filter"
                       size={25}
@@ -201,7 +247,7 @@ export default class HomeScreen extends React.Component {
                       width: 25,
                       }}
                       />
-                  </TouchableWithoutFeedback>
+                  </TouchableOpacity>
                 </View>
               </View>
               <View>
@@ -225,8 +271,8 @@ export default class HomeScreen extends React.Component {
                   alignItems: 'stretch',
                   }}>
                     <TituloPequeno>Filtros</TituloPequeno>
-                    <TouchableWithoutFeedback
-                      onPress={this.toggleModal}>
+                    <TouchableOpacity
+                      onPress={this._toggleModal}>
                       <Icon.FontAwesome
                         name="close"
                         size={25}
@@ -239,7 +285,7 @@ export default class HomeScreen extends React.Component {
                         marginTop: 16,
                         }}
                         />
-                    </TouchableWithoutFeedback>
+                    </TouchableOpacity>
                   </View>
                   <View style={{
                     borderBottomColor: Colors.grisClaro,
@@ -248,19 +294,55 @@ export default class HomeScreen extends React.Component {
                   />
                   
                   <SubTituloPequeno style={{marginTop: 10}}>Busqueda</SubTituloPequeno>
-                    <CheckItem>Cliente</CheckItem>
-                    <CheckItem>Ubicación</CheckItem>
+                    <CheckItem value="cliente" 
+                    checked={this.state.selectedSerch.includes("cliente")}
+                    onChange={(value,isSelected)=>this._onUbicationFilterChange(value, isSelected)}>
+                      Cliente
+                    </CheckItem>
+                    <CheckItem value="ubicacion" 
+                    checked={this.state.selectedSerch.includes("ubicacion")}
+                    onChange={(value,isSelected)=>this._onUbicationFilterChange(value, isSelected)}>
+                      Ubicación
+                    </CheckItem>
                   
                   <SubTituloPequeno style={{marginTop: 10}}>Estatus</SubTituloPequeno>
-                    <CheckItem>Pendiente</CheckItem>
-                    <CheckItem>En proceso</CheckItem>
-                    <CheckItem>Rechazada</CheckItem>
-                    <CheckItem>Aprobada</CheckItem>
+                    <CheckItem value="pendiente" 
+                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
+                    checked={this.state.selectedStatus.includes("pendiente")}>
+                      Pendiente
+                    </CheckItem>
+                    <CheckItem value="proceso" 
+                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
+                    checked={this.state.selectedStatus.includes("proceso")}>
+                      En proceso
+                    </CheckItem>
+                    <CheckItem value="rechazada" 
+                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
+                    checked={this.state.selectedStatus.includes("rechazada")}>
+                      Rechazada
+                    </CheckItem>
+                    <CheckItem value="aprobada" 
+                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
+                    checked={this.state.selectedStatus.includes("aprobada")}>
+                      Aprobada
+                    </CheckItem>
                     
                   <SubTituloPequeno style={{marginTop: 10}}>Cargas</SubTituloPequeno>
-                    <CheckItem>Pendiente</CheckItem>
-                    <CheckItem>Error de carga</CheckItem>
-                    <CheckItem>Cargada</CheckItem>
+                    <CheckItem value="pendiente" 
+                    onChange={(value, isSelected)=>this._onLoadFilterChange(value, isSelected)}
+                    checked={this.state.selectedLoads.includes("pendiente")}>
+                      Pendiente
+                    </CheckItem>
+                    <CheckItem value="error" 
+                    onChange={(value, isSelected)=>this._onLoadFilterChange(value, isSelected)}
+                    checked={this.state.selectedLoads.includes("error")}>
+                      Error de carga
+                    </CheckItem>
+                    <CheckItem value="cargada" 
+                    onChange={(value, isSelected)=>this._onLoadFilterChange(value, isSelected)}
+                    checked={this.state.selectedLoads.includes("cargada")}>
+                      Cargada
+                    </CheckItem>
                 </View>
               </View>
             </Modal>

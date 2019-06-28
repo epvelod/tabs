@@ -193,7 +193,11 @@ export default class Fallas extends React.Component {
           paddingHorizontal: 20,
           }}>
           <View style={{marginBottom: 20}}>
-           <Titulo>Tipo de falla</Titulo>
+           <Titulo>Tipo de&nbsp;
+            <Text onPress={() => Linking.openURL('http://google.com')}
+            style={{textDecorationLine: "underline"}}>Falla
+              </Text>
+            </Titulo>
          </View>
          <ScrollView>
           {items}
