@@ -35,7 +35,6 @@ export default class CheckItem extends React.Component {
   }
 
   render() {
-
     if (Platform.OS === 'android') {
       return (
         <TouchableNativeFeedback onPress={() => this.props.onPress()}>
@@ -63,6 +62,7 @@ export default class CheckItem extends React.Component {
         </TouchableHighlight>
       );
     }
+
   }
 }
 

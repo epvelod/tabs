@@ -90,10 +90,10 @@ export default class HomeScreen extends React.Component {
   };
   _filtrar = ({text}) => {
     const vehiculosF = vehiculos.filter(({ normatividad_vehiculo_persona }, index) => {
-      const apply = false;
-
-      apply = apply || this.state.selectedSerch.includes('cliente') ? normatividad_vehiculo_persona.vehiculo.codigo_vehiculo.includes(text) : true;
-      apply = apply || this.state.selectedSerch.includes('ubicacion') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : true;
+      let apply = false;
+      apply |= (this.state.selectedSerch.includes('cliente') ? normatividad_vehiculo_persona.vehiculo.codigo_vehiculo.includes(text) : false);
+      apply |= (this.state.selectedSerch.includes('ubicacion') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
+      apply |= (this.state.selectedSerch.includes('pendiente') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
 
       return apply;
     });
@@ -307,7 +307,7 @@ export default class HomeScreen extends React.Component {
                   
                   <SubTituloPequeno style={{marginTop: 10}}>Estatus</SubTituloPequeno>
                     <CheckItem value="pendiente" 
-                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
+                    onChange={(value, isSelected)=>this._onUbicationFilterChange(value, isSelected)}
                     checked={this.state.selectedStatus.includes("pendiente")}>
                       Pendiente
                     </CheckItem>

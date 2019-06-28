@@ -20,6 +20,8 @@ export default class ButtonGroup extends React.Component {
 	  super(props);
 	
 	  this.state = {selectedIndex:props.selectedIndex};
+
+	  console.log('props.selectedIndex: '+props.selectedIndex)
 	}
 	_onPress(index) {
 		this.setState({
@@ -43,7 +45,7 @@ export default class ButtonGroup extends React.Component {
 	      	      alignItems:'center',
 	      	      justifyContent:'center',
 	      	      height:60,
-	      	      backgroundColor: (index===this.state.selectedIndex? Colors.negro: '#cacaca'),
+	      	      backgroundColor: (index===this.state.selectedIndex || index===this.props.selectedIndex? Colors.negro: '#cacaca'),
 	      	      borderTopLeftRadius: index===0?radius:0,
 	      	      borderBottomLeftRadius: index===0?radius:0,
 	      	      borderTopRightRadius: index===buttons.length-1?radius:0,

@@ -41,6 +41,7 @@ export default class Instrucciones extends React.Component {
     const didBlurSubscription = this.props.navigation.addListener(
       'willFocus',
       payload => {
+        console.log("foco");
         this.setState({
           ...this.state,
           isLoadingComplete: false
@@ -64,6 +65,8 @@ export default class Instrucciones extends React.Component {
 
     const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingTypes.UTF8 });
     const obj = JSON.parse(content)||[];
+    console.log('respuesta');
+    console.log(obj);
     let respuesta;
 
     /*Buscamos si ya existe el vehicolo en las respuestas*/
@@ -130,6 +133,7 @@ export default class Instrucciones extends React.Component {
 
   render() {
     /*Cargando...*/
+    console.log(!this.state.isLoadingComplete && !this.props.skipLoadingScreen);
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
