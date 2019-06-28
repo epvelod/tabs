@@ -90,7 +90,7 @@ export default class HomeScreen extends React.Component {
   };
   _filtrar = ({text}) => {
     const vehiculosF = vehiculos.filter(({ normatividad_vehiculo_persona }, index) => {
-      const apply = false;
+      let apply = false;
 
       apply = apply || this.state.selectedSerch.includes('cliente') ? normatividad_vehiculo_persona.vehiculo.codigo_vehiculo.includes(text) : true;
       apply = apply || this.state.selectedSerch.includes('ubicacion') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : true;
