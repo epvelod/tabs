@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Platform,
   StyleSheet,
   CheckBox,
   Text,
@@ -35,21 +36,33 @@ export default class CheckItem extends React.Component {
 
   render() {
 
-    return (
-
-  					<TouchableNativeFeedback onPress={() => this.props.onPress()}>
-						<View style={{ flexDirection: 'row' }}>
-			        		<CheckBox value={this.state.selected}
-                  onChange={()=>this._onChange()}>
-                  </CheckBox>
-			        		<Descripcion style={{marginTop: 5,color: Colors.grisOscuro, fontWeight: 'bold'}}>
-			        		{this.props.children}
-			        		</Descripcion>
-						</View>
-  					</TouchableNativeFeedback>
-
-
-    );
+    if (Platform.OS === 'android') {
+      return (
+        <TouchableNativeFeedback onPress={() => this.props.onPress()}>
+        <View style={{ flexDirection: 'row' }}>
+              <CheckBox value={this.state.selected}
+              onChange={()=>this._onChange()}>
+              </CheckBox>
+              <Descripcion style={{marginTop: 5,color: Colors.grisOscuro, fontWeight: 'bold'}}>
+              {this.props.children}
+              </Descripcion>
+        </View>
+        </TouchableNativeFeedback>
+      );
+    } else {
+      return (
+        <TouchableHighlight onPress={() => this.props.onPress()}>
+        <View style={{ flexDirection: 'row' }}>
+              <CheckBox value={this.state.selected}
+              onChange={()=>this._onChange()}>
+              </CheckBox>
+              <Descripcion style={{marginTop: 5,color: Colors.grisOscuro, fontWeight: 'bold'}}>
+              {this.props.children}
+              </Descripcion>
+        </View>
+        </TouchableHighlight>
+      );
+    }
   }
 }
 
