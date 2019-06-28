@@ -37,7 +37,7 @@ export default class CheckItem extends React.Component {
 
     return (
 
-  					<TouchableNativeFeedback onPress={() => this.props.onPress()}>
+  					<TouchableNativeFeedback >
 						<View style={{ flexDirection: 'row' }}>
 			        		<CheckBox value={this.state.selected}
                   onChange={()=>this._onChange()}>
